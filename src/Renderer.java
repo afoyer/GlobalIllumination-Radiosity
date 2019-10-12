@@ -51,9 +51,7 @@ public class Renderer{
       }
     }
   }
-  public Boolean bake(){ //calculate the indirect diffused light sources
-    int pass=0;
-    int maxPass = 2;
+  public Boolean bake(int maxPass, int pass){ //calculate the indirect diffused light sources
     if(pass==0){
       generateIndirectLights();
     }
@@ -72,7 +70,7 @@ public class Renderer{
           }
         }
         pass++;
-        bake();
+        bake(maxPass,pass++);
       }
     }
     return true; //returns true when baking is finished

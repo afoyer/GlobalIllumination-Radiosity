@@ -160,4 +160,8 @@ public class Vector{
     xs[index] = this.toInt()[0];
     ys[index] = this.toInt()[1];
   }
+  public Vector normalize(){
+    return new Vector(x/magnitude(),y/magnitude(),z/magnitude());
+  }
+
 }

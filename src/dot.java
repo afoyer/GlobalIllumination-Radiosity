@@ -1,6 +1,7 @@
-public class dot{
+public class Dot{
   Light light;
-  public dot(){
+  Vector position;
+  public Dot(){
 
   }
 }

@@ -3,7 +3,7 @@ public class Face{
   Vector[] vertices;
   Vector normal;
   Color color;
-  Vector[] dots;
+  Dot[] dots;
   double dotArea;
   public Face(Vector[] vertices){
     this.vertices = vertices;
@@ -18,7 +18,7 @@ public class Face{
   }
   public void generateDots(double dotArea){
     this.dotArea=dotArea;
-    //dots = 
+    //dots =
   }
   public Vector getNormal(){
         return normal;

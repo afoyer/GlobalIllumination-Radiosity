@@ -5,23 +5,17 @@ public class Renderer{
   ArrayList<Light> directLights;
   ArrayList<Light> indirectLights;
   Face[] faces;
-  int width;
-  int height;
   double totalRadiantFlux;
-  Camera camera;
 
   double deltaPhi=2;
   double deltaTheta=2;
   double maxPhi=90;
   double maxTheta=360;
 
-  public Renderer(Camera c, int width, int height){
+  public Renderer(){
     directLights=new ArrayList<Light>();
     indirectLights=new ArrayList<Light>();
-    this.width=width;
-    this.height=height;
     totalRadiantFlux=0;
-    camera=c;
   }
   public void addLight(Light l){
     directLights.add(l);
@@ -51,7 +45,7 @@ public class Renderer{
       }
     }
   }
-  public Boolean bake(int maxPass, int pass){ //calculate the indirect diffused light sources
+  public Light[] bake(int maxPass, int pass){ //calculate the indirect diffused light sources
     if(pass==0){
       generateIndirectLights();
     }
@@ -73,6 +67,6 @@ public class Renderer{
         bake(maxPass,pass++);
       }
     }
-    return true; //returns true when baking is finished
+    return indirectLights.toArray(new Light[indirectLights.size()]); //returns true when baking is finished
   }
 }

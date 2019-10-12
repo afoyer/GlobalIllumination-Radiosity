@@ -1,17 +1,20 @@
 import java.awt.*;
 public class Light{
-  double brightness;
+  double radiantFlux;
   Color color;
   Vector position;
-  int x;
-  int y;
-  public Light(Vector p,double b, Color c){
+  Boolean isDirect; //is a direct light source
+  Vector normal; //if it's a diffused light source, it's face will have a normal
+  public Light(Vector p,double rf,Boolean id,Color c){
     position=p;
-    brightness=b;
+    radiantFlux=rf;
     color=c;
+    isDirect=id;
   }
-  public void setPixel(int x, int y){
-    this.x=x;
-    this.y=y;
+  public void setNormal(Vector v){
+    normal=v;
+  }
+  public Vector getNormal(){
+    return normal;
   }
 }

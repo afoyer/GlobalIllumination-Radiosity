@@ -1,4 +1,6 @@
+import java.awt.*;
 public class Face{
+  Color color;
   public Face(){
 
 

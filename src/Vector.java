@@ -93,7 +93,7 @@ public class Vector{
   public Vector add(Vector p){ //adds vector
     return new Vector(x+p.getX(),y+p.getY(),z+p.getZ());
   }
-  public Vector subtract(Vector p){ //subtracts vector
+  public Vector minus(Vector p){ //subtracts vector
     return new Vector(x-p.getX(),y-p.getY(),z-p.getZ());
   }
   public double dot(Vector p){//dots a vector
@@ -104,27 +104,35 @@ public class Vector{
   }
 
   public double getX(){
+
     return this.x;
   }
   public double getY(){
+
     return this.y;
   }
   public double getZ(){
+
     return this.z;
   }
   public Vector setX(double x){
+
     return new Vector(x,this.y,this.z);
   }
   public Vector setY(double y){
+
     return new Vector(this.x,y,this.z);
   }
   public Vector setZ(double z){
+
     return new Vector(this.x,this.y,z);
   }
   public double magnitude(){ //gets magnitude of this
+
     return Math.sqrt(Math.pow(getX(),2)+Math.pow(getY(),2)+Math.pow(getZ(),2));
   }
-  public Vector getUnit(){
+  public Vector getUnit()
+  {
     return new Vector(getX()/magnitude(),getY()/magnitude(),getZ()/magnitude());
   }
 
@@ -142,6 +150,7 @@ public class Vector{
   public String toString(){
     return getX()+", "+getY()+", "+getZ();
   }
+
   public int[] toInt(){
     return new int[]{
       (int)Math.round(getX()), (int)Math.round(getY()), (int)Math.round(getZ())

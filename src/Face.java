@@ -3,11 +3,11 @@ public class Face{
   Vector[] vertices;
   Vector normal;
   Color color;
+  Vector[] dots;
+  double dotArea;
   public Face(Vector[] vertices){
     this.vertices = vertices;
-    normal = getNormal(vertices);
-
-
+    normal = vertices[1].minus(vertices[0]).cross(vertices[2].minus(vertices[1]));
   }
 
   public boolean contains(Vector point){
@@ -16,8 +16,12 @@ public class Face{
   public Vector getIntersection(Vector start, Vector direction){
     return null;
   }
-  public Vector getNormal(Vector[] points){
-        return points[1].minus(points[0].cross(points[2].minus(points[1])));
+  public void generateDots(double dotArea){
+    this.dotArea=dotArea;
+    //dots = 
+  }
+  public Vector getNormal(){
+        return normal;
 
   }
 

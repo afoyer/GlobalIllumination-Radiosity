@@ -36,7 +36,7 @@ public class Renderer{
           Vector start = directLights.get(l).position;
           Vector target = directLights.get(l).getNormal().returnRotateX(phi,start).returnRotateZ(theta,start);
           for(int i=0; i<faces.length; i++){ //for each face
-            Vector intersection = faces[i].getIntersection(start, target.subtract(start));
+            Vector intersection = faces[i].getIntersection(start, target.minus(start));
             if(faces[i].contains(intersection)){ //if the face contains the intersection
               double deltaRadiantFlux = directLights.get(l).radiantFlux*deltaPhi*deltaTheta/(maxPhi*maxTheta); //the radiant flux of that unit area by the light source
               float r,g,b;

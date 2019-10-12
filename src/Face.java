@@ -6,7 +6,10 @@ public class Face{
   public Vector getNormal(){
     return null;
   }
-  public boolean containsPoint(Vector point){
+  public boolean contains(Vector point){
     return false;
+  }
+  public Vector getIntersection(Vector start, Vector direction){
+    return null;
   }
 }

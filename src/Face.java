@@ -44,24 +44,32 @@ public class Face{
    * @param dotArea - area that the dot would create between each dots.
    */
   public void generateDots(double dotArea){
-    dots = new Dot[(int)(totalarea/dotArea)]; //Unsure if this will be one below.
+     //Unsure if this will be one below.
     int counter = 0;
     double length =Math.sqrt(dotArea); //Movement indicator (not area)
     Vector vectorH = vertices[3].minus(vertices[0]);
     Vector vectorV = vertices[1].minus(vertices[0]);
+
     double sectionV = vectorV.magnitude()/length; //get
     double sectionH = vectorH.magnitude()/length;
+    dots = new Dot[ (int) ((sectionH-1)*(sectionH-1))];
 
     for(double i = 1; i < sectionH; i += 1){
       double xHmov = vertices[0].getX() + i/sectionH*(vectorH.getX()); //shift in x position on "horizontal" vector
       double yHmov = vertices[0].getY() + i/sectionH*(vectorH.getY()); //shift in y position on "horizontal" vector
       double zHmov = vertices[0].getZ() + i/sectionH*(vectorH.getZ()); //shift in z position on "horizontal" vector
+      Vector vH = new Vector(xHmov,yHmov,zHmov);
+      vH = vH.minus(vertices[0]);
       for(double j = 1; j < sectionV; j+= 1){
         double xVmov = vertices[0].getX() + j/sectionV*(vectorV.getX()); //shift in x position on "vertical" vector
         double yVmov = vertices[0].getY() + j/sectionV*(vectorV.getY()); //shift in y position on "vertical" vector
         double zVmov = vertices[0].getZ() + j/sectionV*(vectorV.getZ()); //shift in z position on "vertical" vector
-        dots[counter] = new Dot(new Vector(xHmov+xVmov, yHmov+yVmov, zHmov+zVmov));
+        Vector vV = new Vector(xVmov,yVmov,zVmov);
+        vV = vV.minus(vertices[0]);
+        vV = vV.add(vH);
+        dots[counter] = new Dot(new Vector(vertices[0].add(vV)));
         counter ++;
+        System.out.println(counter);
       }
     }
   }

@@ -31,7 +31,7 @@ public class Renderer{
         Face targetFace = faces[f];
         for(int d=0; d<targetFace.dots.length; d++){
           Dot targetDot = targetFace.dots[d]; //for each target dot
-          Dot sourceDot = new Dot(directLights.get(l));
+          Dot sourceDot = new Dot(directLights.get(l).position, directLights.get(l));
           Vector ray = targetDot.position.minus(sourceDot.position); //draw line from light source to target dot
           Boolean dotIsIlluminated = true;
           if(ray.dot(targetFace.getNormal()) < 0){//if target face is facing the light source

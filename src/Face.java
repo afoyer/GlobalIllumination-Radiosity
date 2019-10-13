@@ -49,10 +49,13 @@ public class Face{
         double xVmov = vertices[0].getX() + vectorV.getX()*j; //shift in x position on "vertical" vector
         double yVmov = vertices[0].getY() + vectorV.getX()*j; //shift in y position on "vertical" vector
         double zVmov = vertices[0].getZ() + vectorV.getX()*j; //shift in z position on "vertical" vector
-        dots[counter] = new Dot(new Vector(xHmov+xVmov, yHmov+yVmov, zHmov+zVmov));
+        Vector position = new Vector(xHmov+xVmov, yHmov+yVmov, zHmov+zVmov);
+        dots[counter] = new Dot(position, new Light(position, 0, Color.white));
         counter ++;
       }
+
     }
+
   }
   public Vector getNormal(){
         return normal;

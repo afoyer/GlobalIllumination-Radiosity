@@ -41,11 +41,11 @@ public class Face{
     double sectionV = vectorV.magnitude()/length; //get
     double sectionH = vectorH.magnitude()/length;
 
-    for(double i = 0; i < sectionH; i += length){
+    for(double i = length; i < sectionH; i += length){
       double xHmov = vertices[0].getX() + i*vectorH.getX(); //shift in x position on "horizontal" vector
       double yHmov = vertices[0].getY() + i*vectorH.getY(); //shift in y position on "horizontal" vector
       double zHmov = vertices[0].getZ() + i*vectorH.getZ(); //shift in z position on "horizontal" vector
-      for(double j = 0; j < sectionV; j+= length){
+      for(double j = length; j < sectionV; j+= length){
         double xVmov = vertices[0].getX() + vectorV.getX()*j; //shift in x position on "vertical" vector
         double yVmov = vertices[0].getY() + vectorV.getX()*j; //shift in y position on "vertical" vector
         double zVmov = vertices[0].getZ() + vectorV.getX()*j; //shift in z position on "vertical" vector

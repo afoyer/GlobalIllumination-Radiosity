@@ -16,26 +16,28 @@ import java.awt.image.*;
 public class Canvas extends JPanel
 {
 	Renderer renderer;
+	CameraFrame cameraFrame;
 	Camera camera;
 	Light light;
 	Face face;
+	int width;
+	int height;
 	public Canvas ()
 	{
+		width=1000;
+		height=1000;
 		//The following is another way to guarantee correct size.
-		setPreferredSize(new Dimension(500,500));
+		setPreferredSize(new Dimension(width,height));
 		setBackground(Color.lightGray);
 
-		face = new Face(new Vector[]{new Vector(300,-300,-300),new Vector(300,300,-300),new Vector(-300,300,-300),new Vector(-300,-300,-300)});
-		CameraFrame cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-50),new Vector(100,100,-50),new Vector(-100,100,-50),new Vector(-100,-100,-50)});
+		face = new Face(new Vector[]{new Vector(-300,300,-300),new Vector(-300,-300,-300),new Vector(300,-300,-300),new Vector(300,300,-300)});
+		face.color = Color.white;
+		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-50),new Vector(100,100,-50),new Vector(-100,100,-50),new Vector(-100,-100,-50)});
 		camera = new Camera(Vector.origin,cameraFrame);
-		light = new Light(Vector.origin, 100, Color.white);
+		light = new Light(Vector.origin, 50000, Color.white);
 		renderer = new Renderer();
 		renderer.addLight(light);
-		face.generateDots(1);
-		for(int i=0; i<face.dots.length; i++){
-			System.out.println(face.dots[i].position);
-		}
-
+		face.generateDots(16);
 		renderer.loadFaces(new Face[]{face});
 	}
 
@@ -46,12 +48,10 @@ public class Canvas extends JPanel
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);  //without this no background color set.
-
 		Graphics2D g2d = (Graphics2D)g; //cast so we can use JAVA2D.
-		g2d.translate(getWidth()/2,getHeight()/2);
 		renderer.bake(0);
 		BufferedImage bi = camera.draw(renderer.bakedDots);
-		g2d.drawImage(bi, 0,0,null);
+		g2d.drawImage(bi, 0, 0, width, height, 0, 0, cameraFrame.getWidth(),cameraFrame.getHeight(), null);
 
 	}
 

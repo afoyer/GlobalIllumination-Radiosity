@@ -8,7 +8,7 @@ public class Face{
   double totalarea;
   public Face(Vector[] vertices){
     this.vertices = vertices;
-    normal = vertices[1].minus(vertices[0]).cross(vertices[2].minus(vertices[1]));
+    normal = vertices[1].minus(vertices[0]).cross(vertices[2].minus(vertices[1])).getUnit();
     totalarea = getArea(vertices[0], vertices[1], vertices[2] , 1);
   }
 
@@ -18,7 +18,7 @@ public class Face{
     double area3 = getArea(vertices[2], vertices[3], point , 2);
     double area4 = getArea(vertices[3], vertices[0], point , 2);
     double totalPointArea = area1 + area2 + area3 + area4;
-    if(Math.abs(totalPointArea - totalarea) > 0.0001){
+    if(Math.abs(totalPointArea - totalarea) < 0.0001){
       return true;
     }
     return false;
@@ -44,6 +44,7 @@ public class Face{
    * @param dotArea - area that the dot would create between each dots.
    */
   public void generateDots(double dotArea){
+    this.dotArea=dotArea;
      //Unsure if this will be one below.
     int counter = 0;
     double length =Math.sqrt(dotArea); //Movement indicator (not area)
@@ -67,9 +68,10 @@ public class Face{
         Vector vV = new Vector(xVmov,yVmov,zVmov);
         vV = vV.minus(vertices[0]);
         vV = vV.add(vH);
-        dots[counter] = new Dot(new Vector(vertices[0].add(vV)));
+        Vector position = new Vector(vertices[0].add(vV));
+        dots[counter] = new Dot(position);
+        dots[counter].setLight(new Light(position,0,color));
         counter ++;
-        System.out.println(counter);
       }
     }
   }

@@ -23,18 +23,16 @@ public class Camera{
     float bSum=0;
     for(int i=0; i<positions[0].length; i++){
       if(positions[0][i]==positions[0][startIndex] && positions[1][i]==positions[1][startIndex]){
-        rSum=dots[i].light.color.getRed();
-        gSum=dots[i].light.color.getGreen();
-        bSum=dots[i].light.color.getBlue();
+        rSum=(float)dots[i].light.color.getRed()/255;
+        gSum=(float)dots[i].light.color.getGreen()/255;
+        bSum=(float)dots[i].light.color.getBlue()/255;
       }
       else{
         float change = i-startIndex;
-        System.out.println(positions[0][i]+", "+positions[1][i]);
-        //System.out.println(rSum/change/255+", "+gSum/change/255+", "+bSum/change/255);
-        //Color c = new Color(rSum/change/255,gSum/change/255,bSum/change/255);
-        System.out.println(rSum/255+", "+gSum/255+", "+bSum/255);
-        Color c = new Color(rSum/255,gSum/255,bSum/255);
-        image.setRGB(positions[0][i]/2+frame.getWidth()/2,positions[1][i]/2+frame.getHeight()/2,c.getRGB());
+        //System.out.println("pos :"+positions[0][i]+", "+positions[1][i]);
+        //System.out.println(rSum+", "+gSum+", "+bSum);
+        Color c = new Color(rSum,gSum,bSum);
+        image.setRGB(positions[0][i]+frame.getWidth()/2,positions[1][i]+frame.getHeight()/2,c.getRGB());
         startIndex=i;
       }
     }

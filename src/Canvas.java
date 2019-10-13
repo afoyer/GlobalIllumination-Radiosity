@@ -31,7 +31,7 @@ public class Canvas extends JPanel
 		setBackground(Color.lightGray);
 
 		face = new Face(new Vector[]{new Vector(-300,300,-300),new Vector(-300,-300,-300),new Vector(300,-300,-300),new Vector(300,300,-300)});
-		face.color = Color.white;
+		face.setColor(Color.white);
 		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-50),new Vector(100,100,-50),new Vector(-100,100,-50),new Vector(-100,-100,-50)});
 		camera = new Camera(Vector.origin,cameraFrame);
 		light = new Light(Vector.origin, 50000, Color.white);

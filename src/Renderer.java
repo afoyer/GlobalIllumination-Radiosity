@@ -4,6 +4,8 @@ import java.util.*;
 public class Renderer{
   ArrayList<Light> directLights;
 
+  Dot[] bakedDots;
+
   Face[] faces;
   double totalRadiantFlux;
 
@@ -52,6 +54,14 @@ public class Renderer{
       }
     }
     baker(maxPass,0);
+
+    ArrayList<Dot> bakedDotList = new ArrayList<Dot>();
+    for(int f=0; f<faces.length; f++){
+      for(int d=0; d<faces[f].dots.length; d++){
+        bakedDotList.add(faces[f].dots[d]);
+      }
+    }
+    bakedDots = bakedDotList.toArray(new Dot[bakedDotList.size()]);
   }
   private void baker(int maxPass, int pass){
     if(pass<maxPass){

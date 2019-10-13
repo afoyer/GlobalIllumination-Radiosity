@@ -6,12 +6,23 @@ public class Face{
   Dot[] dots;
   double dotArea;
   double totalarea;
+
+  /**
+   * Sets up points for the face. calculates normal vector.
+   * @param vertices - vertices of the face.
+   */
   public Face(Vector[] vertices){
     this.vertices = vertices;
     normal = vertices[1].minus(vertices[0]).cross(vertices[2].minus(vertices[1])).getUnit();
     totalarea = getArea(vertices[0], vertices[1], vertices[2] , 1);
   }
 
+  /**
+   * checks if point lies within face on the same plane using area equations. if the area of the point and all other points of the face is greater
+   * than the area of the face, returns false.
+   * @param point - point to check if inside face
+   * @return - true if point lies inside face.
+   */
   public boolean contains(Vector point){
     double area1 = getArea(vertices[0], vertices[1], point, 2);
     double area2 =getArea(vertices[1], vertices[2], point , 2);
@@ -24,6 +35,13 @@ public class Face{
     return false;
 
   }
+
+  /**
+   * Gets the intersection point between a line(point and vector) and a plane. returns null if no point is found.
+   * @param start - starting point
+   * @param direction - vector direction of line
+   * @return - point on plane
+   */
   public Vector getIntersection(Vector start, Vector direction){
     if(normal.dot(direction.normalize()) ==0){
       return null;
@@ -75,10 +93,24 @@ public class Face{
       }
     }
   }
+
+  /**
+   * Gets normal vector of the face
+   * @return - the normal vector.
+   */
   public Vector getNormal(){
         return normal;
 
   }
+
+  /**
+   * Gets the area of a polygon using 3 points, can also be used for triangle if factor is set to 2
+   * @param v1 - point a
+   * @param v2 - point b (must link to a)
+   * @param v3 - point c (must link to b)
+   * @param factor - dividing factor (used to calculate area of triangle
+   * @return - area of polygon.
+   */
   public double getArea(Vector v1, Vector v2, Vector v3, double factor){
     Vector v1v2 = v2.minus(v1);
     Vector v2v3 = v3.minus(v2);

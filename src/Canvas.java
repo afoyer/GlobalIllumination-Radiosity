@@ -31,6 +31,7 @@ public class Canvas extends JPanel
 		light = new Light(Vector.origin, 100, Color.white);
 		renderer = new Renderer();
 		renderer.addLight(light);
+		face.generateDots(1);
 		renderer.loadFaces(new Face[]{face});
 	}
 

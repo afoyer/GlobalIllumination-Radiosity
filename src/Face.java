@@ -41,14 +41,14 @@ public class Face{
     double sectionV = vectorV.magnitude()/length; //get
     double sectionH = vectorH.magnitude()/length;
 
-    for(double i = 0; i < vectorH.magnitude(); i += sectionH){
-      double xHmov = vectorH.getX() + i; //shift in x position on "horizontal" vector
-      double yHmov = vectorH.getY() + i; //shift in y position on "horizontal" vector
-      double zHmov = vectorH.getZ() + i; //shift in z position on "horizontal" vector
-      for(double j = 0; j < vectorV.magnitude(); j+= sectionV){
-        double xVmov = vectorV.getX() + j; //shift in x position on "vertical" vector
-        double yVmov = vectorV.getY() + j; //shift in y position on "vertical" vector
-        double zVmov = vectorV.getZ() + j; //shift in z position on "vertical" vector
+    for(double i = 0; i < sectionH; i += length){
+      double xHmov = vertices[0].getX() + i*vectorH.getX(); //shift in x position on "horizontal" vector
+      double yHmov = vertices[0].getY() + i*vectorH.getY(); //shift in y position on "horizontal" vector
+      double zHmov = vertices[0].getZ() + i*vectorH.getZ(); //shift in z position on "horizontal" vector
+      for(double j = 0; j < sectionV; j+= length){
+        double xVmov = vertices[0].getX() + vectorV.getX()*j; //shift in x position on "vertical" vector
+        double yVmov = vertices[0].getY() + vectorV.getX()*j; //shift in y position on "vertical" vector
+        double zVmov = vertices[0].getZ() + vectorV.getX()*j; //shift in z position on "vertical" vector
         dots[counter] = new Dot(new Vector(xHmov+xVmov, yHmov+yVmov, zHmov+zVmov));
         counter ++;
       }

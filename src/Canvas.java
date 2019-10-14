@@ -19,6 +19,7 @@ public class Canvas extends JPanel
 	CameraFrame cameraFrame;
 	Camera camera;
 	Light light;
+	Light light2;
 	Face face;
 	int width;
 	int height;
@@ -33,23 +34,24 @@ public class Canvas extends JPanel
 		face = new Face(new Vector[]{new Vector(-300,300,-300),new Vector(-300,-300,-300),new Vector(300,-300,-300),new Vector(300,300,-300)});
 		face.setColor(Color.white);
 		face.generateDots(16);
-		Face face2 = new Face(new Vector[]{new Vector(-100,100,-250),new Vector(-100,-100,-250),new Vector(100,-100,-250),new Vector(100,100,-250)});
-		face2.setColor(Color.white);
+		Face face2 = new Face(new Vector[]{new Vector(-300,300,0),new Vector(-300,-300,0),new Vector(-300,-300,-300),new Vector(-300,300,-300)});
+		face2.setColor(Color.blue);
 		face2.generateDots(16);
-		Face face3 = new Face(new Vector[]{new Vector(300,300,-300),new Vector(300,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
+		Face face3 = new Face(new Vector[]{new Vector(200,300,-300),new Vector(200,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
 		face3.setColor(Color.red);
 		face3.generateDots(16);
-		Face face4 = new Face(new Vector[]{new Vector(-300,300,0),new Vector(-300,-300,0),new Vector(-300,-300,-300),new Vector(-300,300,-300)});
-		face4.setColor(Color.blue);
+		Face face4 = new Face(new Vector[]{new Vector(-100,100,-250),new Vector(-100,-100,-250),new Vector(100,-100,-250),new Vector(100,100,-250)});
+		face4.setColor(Color.white);
 		face4.generateDots(16);
 		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-60),new Vector(100,100,-60),new Vector(-100,100,-60),new Vector(-100,-100,-60)});
-		Face[] faces = new Face[]{face,face3};
+		Face[] faces = new Face[]{face,face2, face3, face4};
 		camera = new Camera(Vector.origin,cameraFrame,faces);
-		light = new Light(new Vector(290,0,50), 100000, Color.white);
-		Light light2 = new Light(new Vector(-190,0,50), 100000, Color.white);
+		light = new Light(new Vector(190,0,50), 50000, Color.white);
+		light2 = new Light(new Vector(-200,0,50), 50000, Color.white);
 		renderer = new Renderer();
 		renderer.addLight(light);
-		//renderer.addLight(light2);
+
+		renderer.addLight(light2);
 		renderer.loadFaces(faces);
 		renderer.bake(1);
 

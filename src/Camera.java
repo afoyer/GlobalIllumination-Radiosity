@@ -37,11 +37,20 @@ public class Camera{
             if(dotIsVisible){
               Vector frameIntersection = frame.getIntersection(position, ray);
               Vector fromCamera = frameIntersection.minus(position);
-              Color renderedDotColor = new Color(
-                (float)dots[d].light.color.getRed()/255*(float)dots[d].light.radiantFlux,
-                (float)dots[d].light.color.getGreen()/255*(float)dots[d].light.radiantFlux,
-                (float)dots[d].light.color.getBlue()/255*(float)dots[d].light.radiantFlux
-              );
+              float r,g,b;
+              r=(float)dots[d].light.color.getRed()/255*(float)dots[d].light.radiantFlux;
+              g=(float)dots[d].light.color.getGreen()/255*(float)dots[d].light.radiantFlux;
+              b=(float)dots[d].light.color.getBlue()/255*(float)dots[d].light.radiantFlux;
+              if(r>1){
+                r=1;
+              }
+              if(g>1){
+                g=1;
+              }
+              if(b>1){
+                b=1;
+              }
+              Color renderedDotColor = new Color(r,g,b);
               pixels.add(new Pixel(fromCamera,renderedDotColor));
             }
           }
@@ -66,7 +75,11 @@ public class Camera{
         //System.out.println("pos :"+positions[0][i]+", "+positions[1][i]);
         //System.out.println(rSum+", "+gSum+", "+bSum);
         Color c = new Color(rSum,gSum,bSum);
-        image.setRGB(pixelPos[0]+frame.getWidth()/2,pixelPos[1]+frame.getHeight()/2,c.getRGB());
+        int x = pixelPos[0]+frame.getWidth()/2;
+        int y = pixelPos[1]+frame.getHeight()/2;
+        if(x > 0 && x < frame.getWidth() && y > 0 && y < frame.getHeight()){
+          image.setRGB(x,y,c.getRGB());
+        }
         startIndex=i;
       }
     }

@@ -116,7 +116,6 @@ public class Renderer{
                 }
                 //if the light reaches the target dot, calculate the light value at the target dot
                 if(dotIsIlluminated){
-                  //System.out.println(targetDot.light.radiantFlux);
                   targetDot.setLight(getLight(ray, sourceDot, targetDot, targetFace));
                 }
               }
@@ -136,18 +135,10 @@ public class Renderer{
 
     double deltaRadiantFlux = targetDot.light.radiantFlux + sourceDot.light.radiantFlux * (1/sphereArea); //radiantflux on a dot is inversly proportional to the distance squared
     float r,g,b;
-    r=sourceDot.light.color.getRed()/255*(float)deltaRadiantFlux*targetDot.light.color.getRed()/255;
-    g=sourceDot.light.color.getGreen()/255*(float)deltaRadiantFlux*targetDot.light.color.getGreen()/255;
-    b=sourceDot.light.color.getBlue()/255*(float)deltaRadiantFlux*targetDot.light.color.getBlue()/255;
-    if(r>1){
-      r=1;
-    }
-    if(g>1){
-      g=1;
-    }
-    if(b>1){
-      b=1;
-    }
+    r=sourceDot.light.color.getRed()/255*targetDot.light.color.getRed()/255;
+    g=sourceDot.light.color.getGreen()/255*targetDot.light.color.getGreen()/255;
+    b=sourceDot.light.color.getBlue()/255*targetDot.light.color.getBlue()/255;
+
     Color c = new Color(r,g,b);
     return new Light(targetDot.position,deltaRadiantFlux,c);
 

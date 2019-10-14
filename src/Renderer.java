@@ -107,7 +107,7 @@ public class Renderer{
                 }
                 else{ //check if there are any obstacles before reaching the target dot
                   for(int fi=0; fi<faces.length; fi++){ //if the ray hits a face before reaching the dot in question, the dot won't be illuminated
-                    if(faces[fi]!=targetFace){
+                    if(faces[fi]!=targetFace && faces[fi]!=sourceFace){
                       Vector intersection = faces[fi].getIntersection(sourceDot.position, ray);
                       //if even a single face contains the intersection, the light source does not reach the dot in question
                       if(faces[fi].contains(intersection)){
@@ -137,18 +137,24 @@ public class Renderer{
   private Color renderColor(ArrayList<Vector> rays, ArrayList<Dot> sourceDots, Dot targetDot, Face targetFace, int pass){
     //radiant flux by the light on the dot is the dot area divided by the total spherical area at that distance
     float rLight,gLight,bLight;
+    float multiplier = 1;
     rLight=(float)targetDot.sourceLightColor.getRed()/255;
     gLight=(float)targetDot.sourceLightColor.getGreen()/255;
     bLight=(float)targetDot.sourceLightColor.getBlue()/255;
+    if(pass>-1){
+      //System.out.println(new Color(rLight,gLight,bLight));
+    }
 
     double totalRadiantFlux=0;
+
     for(int i=0; i<sourceDots.size(); i++){
       double radius = rays.get(i).magnitude();
       double deltaRadiantFlux = sourceDots.get(i).light.radiantFlux * (1/Math.pow(radius,2)); //radiantflux on a dot is inversly proportional to the distance squared
       totalRadiantFlux+=deltaRadiantFlux;
-      rLight+=(float)deltaRadiantFlux*(float)sourceDots.get(i).light.color.getRed()/255;
-      gLight+=(float)deltaRadiantFlux*(float)sourceDots.get(i).light.color.getGreen()/255;
-      bLight+=(float)deltaRadiantFlux*(float)sourceDots.get(i).light.color.getBlue()/255;
+      rLight+=(float)deltaRadiantFlux*multiplier*(float)sourceDots.get(i).light.color.getRed()/255;
+      gLight+=(float)deltaRadiantFlux*multiplier*(float)sourceDots.get(i).light.color.getGreen()/255;
+      bLight+=(float)deltaRadiantFlux*multiplier*(float)sourceDots.get(i).light.color.getBlue()/255;
+
     }
     if(rLight>1){
       rLight=1;
@@ -160,11 +166,13 @@ public class Renderer{
       bLight=1;
     }
     targetDot.sourceLightColor=new Color(rLight,gLight,bLight);
+
     float rRendered,gRendered,bRendered;
     rRendered=(float)targetDot.matColor.getRed()/255*rLight;
     gRendered=(float)targetDot.matColor.getGreen()/255*gLight;
     bRendered=(float)targetDot.matColor.getBlue()/255*bLight;
     Color c = new Color(rRendered,gRendered,bRendered);
+
     targetDot.setLight(new Light(targetDot.position,totalRadiantFlux,c));
     return c;
 

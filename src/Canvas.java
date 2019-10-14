@@ -31,10 +31,10 @@ public class Canvas extends JPanel
 		setBackground(Color.lightGray);
 
 		face = new Face(new Vector[]{new Vector(-300,300,-300),new Vector(-300,-300,-300),new Vector(300,-300,-300),new Vector(300,300,-300)});
-		face.color = Color.white;
+		face.setColor(Color.white);
 		face.generateDots(16);
 		Face face2 = new Face(new Vector[]{new Vector(-100,100,-250),new Vector(-100,-100,-250),new Vector(100,-100,-250),new Vector(100,100,-250)});
-		face2.color = Color.white;
+		face2.setColor(Color.white);
 		face2.generateDots(16);
 		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-50),new Vector(100,100,-50),new Vector(-100,100,-50),new Vector(-100,-100,-50)});
 		camera = new Camera(Vector.origin,cameraFrame);

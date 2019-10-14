@@ -72,6 +72,7 @@ public class Renderer{
       }
     }
     */
+    System.out.println("Set light baking done.");
     globalIlluminationBaker(maxPass,0);
 
     //save the dots in each face into an array of dots, a kind of a lightmap
@@ -86,10 +87,25 @@ public class Renderer{
   }
   //calculates light and color at each dot from diffused light source from other dots
   private void globalIlluminationBaker(int maxPass, int pass){
+    System.out.println("Pass: " + pass + "/" + maxPass);
+    double prevpercent = -0.1;
     if(pass<maxPass){
       for(int f=0; f<faces.length; f++){
+
+          prevpercent = 0;
+          System.out.println("Face:" + f);
+
+
         Face targetFace = faces[f];
         for(int d=0; d<targetFace.dots.length; d++){
+          int facelenght = targetFace.dots.length;
+          int num = d;
+          double percent = (double)(num*100/facelenght);
+          if(percent >= prevpercent){
+            System.out.print("\r" + percent + "%");
+            prevpercent+= 0.1;
+          }
+
           Dot targetDot = targetFace.dots[d]; //for each target dot
           ArrayList<Dot> sourceDots = new ArrayList<Dot>();
           ArrayList<Vector> rays = new ArrayList<Vector>();
@@ -142,6 +158,7 @@ public class Renderer{
     gLight=(float)targetDot.sourceLightColor.getGreen()/255;
     bLight=(float)targetDot.sourceLightColor.getBlue()/255;
     if(pass>-1){
+      multiplier = 3/2;
       //System.out.println(new Color(rLight,gLight,bLight));
     }
 

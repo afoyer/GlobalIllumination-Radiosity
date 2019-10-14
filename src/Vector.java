@@ -1,4 +1,9 @@
 import java.util.*;
+
+/**
+ * Vector holds an x, y and z position and can calculate various operations between itself and another vector.
+ * Can also be used to be a simple point in 3 dimensions.
+ */
 public class Vector{
   double x;
   double y;
@@ -8,38 +13,79 @@ public class Vector{
   public static Vector yHat = new Vector(0,1,0);
   public static Vector zHat = new Vector(0,0,1);
 
+    /**
+     * Constructor using new coordinates
+     * @param x - x coordinate
+     * @param y - y coordinate
+     * @param z - z coordinate
+     */
   public Vector(double x,double y,double z){
     this.x=x;
     this.y=y;
     this.z=z;
   }
+
+    /**
+     * Constructor giving in another vector.
+     * @param p - vector.
+     */
   public Vector(Vector p){
     this.x=p.getX();
     this.y=p.getY();
     this.z=p.getZ();
   }
+
+    /**
+     * Rotates a vector around the X axis
+     * @param angle - angle to be rotated around
+     * @param center - point to be rotated on.
+     */
   public void rotateX(double angle, Vector center){//rotate a point around a center by angle degrees on its local x Axis
     Vector temp = this.returnRotateX(angle,center);
     x=temp.getX();
     y=temp.getY();
     z=temp.getZ();
   }
+    /**
+     * Rotates a vector around the Y axis
+     * @param angle - angle to be rotated around
+     * @param center - point to be rotated on.
+     */
   public void rotateY(double angle, Vector center){//rotate a point around a center by angle degrees on its local y Axis
     Vector temp = this.returnRotateY(angle,center);
     x=temp.getX();
     y=temp.getY();
     z=temp.getZ();
   }
+    /**
+     * Rotates a vector around the Z axis
+     * @param angle - angle to be rotated around
+     * @param center - point to be rotated on.
+     */
   public void rotateZ(double angle, Vector center){//rotate a point around a center by angle degrees on its local z Axis
     Vector temp = this.returnRotateZ(angle,center);
     x=temp.getX();
     y=temp.getY();
     z=temp.getZ();
   }
+
+    /**
+     * Finds the angle between two vectors.
+     * @param v2 - other vector
+     * @return angle (in radians)
+     */
   public double angleBetween(Vector v2){ //return the angle between vectors in degrees
     return Math.acos(this.dot(v2)/this.magnitude()/v2.magnitude())*180/Math.PI;
   }
-  public Vector returnRotateX(double angle, Vector center){//returns a Vector insteado of changing the current
+
+    /**
+     * Like rotate X but
+     * returns a Vector instead of changing the current
+     * @param angle
+     * @param center
+     * @return
+     */
+  public Vector returnRotateX(double angle, Vector center){
     double[] tempVector = new double[3];
     double rad = Math.toRadians(angle);
     double tx=getX()-center.getX();
@@ -50,6 +96,13 @@ public class Vector{
     tempVector[2]=ty*Math.sin(rad)+tz*Math.cos(rad);
     return new Vector(tempVector[0]+center.getX(),tempVector[1]+center.getY(),tempVector[2]+center.getZ());
   }
+    /**
+     * Like rotate Y but
+     * returns a Vector instead of changing the current
+     * @param angle
+     * @param center
+     * @return
+     */
   public Vector returnRotateY(double angle, Vector center){//returns a Vector insteado of changing the current
     double[] tempVector = new double[3];
     double rad = Math.toRadians(angle);
@@ -61,6 +114,13 @@ public class Vector{
     tempVector[2]=-1*tx*Math.sin(rad)+tz*Math.cos(rad);
     return new Vector(tempVector[0]+center.getX(),tempVector[1]+center.getY(),tempVector[2]+center.getZ());
   }
+    /**
+     * Like rotate Z but
+     * returns a Vector instead of changing the current
+     * @param angle
+     * @param center
+     * @return
+     */
   public Vector returnRotateZ(double angle, Vector center){//returns a Vector insteado of changing the current
     double[] tempVector = new double[3];
     double rad = Math.toRadians(angle);
@@ -87,50 +147,114 @@ public class Vector{
     tempV.rotateY(toZ,center);
     return tempV;
   }
+
+    /**
+     * Scales vector coordinates.
+     * @param s - scalar variable
+     * @return new vector with scaled coordinates.
+     */
   public Vector scale(double s){ //scales the point
     return new Vector(getX()*s,getY()*s,getZ()*s);
   }
+
+    /**
+     * Adds vector and other vector to give out new vector.
+     * @param p - other vector
+     * @return - newly added vector.
+     */
   public Vector add(Vector p){ //adds vector
     return new Vector(x+p.getX(),y+p.getY(),z+p.getZ());
   }
+
+    /**
+     * takes current vector, subtracts other vector from it and return new vector with new coordinates
+     * @param p - other vector
+     * @return newly subtracted vector
+     */
   public Vector minus(Vector p){ //subtracts vector
     return new Vector(x-p.getX(),y-p.getY(),z-p.getZ());
   }
+
+    /**
+     * Does a dot product between current vector and other vector
+     * @param p - other vector
+     * @return dot product as a double.
+     */
   public double dot(Vector p){//dots a vector
     return x*p.getX()+y*p.getY()+z*p.getZ();
   }
+
+    /**
+     * Does a cross product between current vector and another vector and returns a new vector from it
+     * @param p - other vector
+     * @return - new crossed vector.
+     */
   public Vector cross(Vector p){//crosses a vector
     return new Vector(getY()*p.getZ()-getZ()*p.getY(), getZ()*p.getX()-getX()*p.getZ(), getX()*p.getY()-getY()*p.getX());
   }
 
+    /**
+     * Gets x coordinate
+     * @return x coordinate
+     */
   public double getX(){
 
     return this.x;
   }
+    /**
+     * Gets y coordinate
+     * @return y coordinate
+     */
   public double getY(){
 
     return this.y;
   }
+    /**
+     * Gets z coordinate
+     * @return z coordinate
+     */
   public double getZ(){
 
     return this.z;
   }
+    /**
+     * Sets x coordinate
+     * @return new vector with new x coordinate
+     */
   public Vector setX(double x){
 
     return new Vector(x,this.y,this.z);
   }
+    /**
+     * Sets y coordinate
+     * @return new vector with new y coordinate
+     */
   public Vector setY(double y){
 
     return new Vector(this.x,y,this.z);
   }
+    /**
+     * Sets z coordinate
+     * @return new vector with new z coordinate
+     */
   public Vector setZ(double z){
 
     return new Vector(this.x,this.y,z);
   }
+
+    /**
+     * Gets magnitude of vector.
+     * @return magnitude of vector.
+     */
   public double magnitude(){ //gets magnitude of this
 
     return Math.sqrt(Math.pow(getX(),2)+Math.pow(getY(),2)+Math.pow(getZ(),2));
   }
+
+    /**
+     * Gets the unit vector (divides coordinates by magnitude
+     * @return - scaled vector.
+     */
   public Vector getUnit()
   {
     return new Vector(getX()/magnitude(),getY()/magnitude(),getZ()/magnitude());
@@ -143,14 +267,26 @@ public class Vector{
     return p;
   }
 
+    /**
+     * Returns identical vector
+     * @return this vector.
+     */
   public Vector clone(){
     return new Vector(getX(),getY(),getZ());
   }
 
+    /**
+     * toString method, gives x, y  and z coordinates as string.
+     * @return x, y  and z coordinates as string.
+     */
   public String toString(){
     return getX()+", "+getY()+", "+getZ();
   }
 
+    /**
+     * rounds double into ints.
+     * @return int array of coordinates ([x,y,z])
+     */
   public int[] toInt(){
     return new int[]{
       (int)Math.round(getX()), (int)Math.round(getY()), (int)Math.round(getZ())
@@ -160,6 +296,7 @@ public class Vector{
     xs[index] = this.toInt()[0];
     ys[index] = this.toInt()[1];
   }
+
   public Vector normalize(){
     return new Vector(x/magnitude(),y/magnitude(),z/magnitude());
   }

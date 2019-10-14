@@ -15,6 +15,7 @@ import java.awt.image.*;
 
 public class Canvas extends JPanel
 {
+	final double dotarea = 4;
 	Renderer renderer;
 	CameraFrame cameraFrame;
 	Camera camera;
@@ -33,16 +34,19 @@ public class Canvas extends JPanel
 
 		face = new Face(new Vector[]{new Vector(-300,300,-300),new Vector(-300,-300,-300),new Vector(300,-300,-300),new Vector(300,300,-300)});
 		face.setColor(Color.white);
-		face.generateDots(16);
+		face.generateDots(dotarea);
 		Face face2 = new Face(new Vector[]{new Vector(-300,300,0),new Vector(-300,-300,0),new Vector(-300,-300,-300),new Vector(-300,300,-300)});
-		face2.setColor(Color.blue);
-		face2.generateDots(16);
-		Face face3 = new Face(new Vector[]{new Vector(200,300,-300),new Vector(200,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
-		face3.setColor(Color.red);
-		face3.generateDots(16);
+		face2.setColor(Color.red);
+		face2.generateDots(dotarea);
+		Face face3 = new Face(new Vector[]{new Vector(300,300,-300),new Vector(300,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
+		face3.setColor(Color.green);
+		face3.generateDots(dotarea);
 		Face face4 = new Face(new Vector[]{new Vector(-100,100,-250),new Vector(-100,-100,-250),new Vector(100,-100,-250),new Vector(100,100,-250)});
 		face4.setColor(Color.white);
-		face4.generateDots(16);
+		face4.generateDots(dotarea);
+		Face face5 = new Face(new Vector[]{new Vector(100,100,-251),new Vector(100,-100,-251),new Vector(-100,-100,-251),new Vector(-100,100,-251)});
+		face5.setColor(Color.white);
+		face5.generateDots(dotarea);
 		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-60),new Vector(100,100,-60),new Vector(-100,100,-60),new Vector(-100,-100,-60)});
 		Face[] faces = new Face[]{face,face2, face3, face4};
 		camera = new Camera(Vector.origin,cameraFrame,faces);
@@ -52,6 +56,7 @@ public class Canvas extends JPanel
 		renderer.addLight(light);
 
 		renderer.addLight(light2);
+		renderer.addLight(new Light(new Vector(0,50,50), 50000, Color.white));
 		renderer.loadFaces(faces);
 		renderer.bake(1);
 

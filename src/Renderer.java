@@ -31,14 +31,16 @@ public class Renderer{
         Face targetFace = faces[f];
         for(int d=0; d<targetFace.dots.length; d++){
           Dot targetDot = targetFace.dots[d]; //for each target dot
+          ArrayList<Dot> sourceDots = new ArrayList<Dot>();
+          ArrayList<Vector> rays = new ArrayList<Vector>();
           Dot sourceDot = new Dot(directLights.get(l).position);
           sourceDot.setLight(directLights.get(l));
           Vector ray = targetDot.position.minus(sourceDot.position); //draw line from light source to target dot
 
-          Boolean dotIsIlluminated = true;
+          Boolean dotIsIlluminatedBySource = true;
           //check if the target dot is illuminated by the direct light source
           if(ray.getUnit().dot(targetFace.getNormal()) > 0){//if target face isn't facing the light source
-            dotIsIlluminated=false;
+            dotIsIlluminatedBySource=false;
           }
           else{ //check if there are any obstacles before reaching the target dot
             for(int fi=0; fi<faces.length; fi++){ //if the ray hits a face before reaching the dot in question, the dot won't be illuminated
@@ -48,16 +50,18 @@ public class Renderer{
                 //if even a single face contains the intersection, the light source does not reach the dot in question
                 if(faces[fi].contains(intersection)){
                   if(intersection.minus(sourceDot.position).magnitude()<ray.magnitude()){
-                    dotIsIlluminated=false;
+                    dotIsIlluminatedBySource=false;
                     break;
                   }
                 }
               }
             }
           }
-          if(dotIsIlluminated){
-            targetDot.setLight(getLight(ray, sourceDot, targetDot, targetFace));
+          if(dotIsIlluminatedBySource){
+            sourceDots.add(sourceDot);
+            rays.add(ray);
           }
+          targetDot.renderedColor = renderColor(rays, sourceDots, targetDot, targetFace,-1);
         }
       }
     }
@@ -87,7 +91,8 @@ public class Renderer{
         Face targetFace = faces[f];
         for(int d=0; d<targetFace.dots.length; d++){
           Dot targetDot = targetFace.dots[d]; //for each target dot
-          //System.out.println("-1. "+targetDot.light.radiantFlux);
+          ArrayList<Dot> sourceDots = new ArrayList<Dot>();
+          ArrayList<Vector> rays = new ArrayList<Vector>();
           for(int f2=0; f2<faces.length; f2++){
             Face sourceFace = faces[f2];
             if(sourceFace!=targetFace){
@@ -95,10 +100,10 @@ public class Renderer{
                 Dot sourceDot = sourceFace.dots[d2]; //loop through all light source dots
                 //System.out.println("0. "+targetDot.light.radiantFlux);
                 Vector ray = targetDot.position.minus(sourceDot.position); //draw line from light source to target dot
-                Boolean dotIsIlluminated = true;
+                Boolean dotIsIlluminatedBySource = true;
                 //checking if the light from the source dot can reach the target dot
                 if(ray.getUnit().dot(targetFace.getNormal()) > 0 || ray.getUnit().dot(sourceFace.getNormal()) < 0){//if ray doesn't hit the target face or if the ray points towards from the source face
-                  dotIsIlluminated=false;
+                  dotIsIlluminatedBySource=false;
                 }
                 else{ //check if there are any obstacles before reaching the target dot
                   for(int fi=0; fi<faces.length; fi++){ //if the ray hits a face before reaching the dot in question, the dot won't be illuminated
@@ -107,20 +112,21 @@ public class Renderer{
                       //if even a single face contains the intersection, the light source does not reach the dot in question
                       if(faces[fi].contains(intersection)){
                         if(intersection.minus(sourceDot.position).magnitude()<ray.magnitude()){
-                          dotIsIlluminated=false;
+                          dotIsIlluminatedBySource=false;
                           break;
                         }
                       }
                     }
                   }
                 }
-                //if the light reaches the target dot, calculate the light value at the target dot
-                if(dotIsIlluminated){
-                  targetDot.setLight(getLight(ray, sourceDot, targetDot, targetFace));
+                if(dotIsIlluminatedBySource){
+                  sourceDots.add(sourceDot);
+                  rays.add(ray);
                 }
               }
             }
           }
+          targetDot.renderedColor = renderColor(rays, sourceDots, targetDot, targetFace,pass);
         }
       }
       pass++;
@@ -128,19 +134,38 @@ public class Renderer{
     }
   }
 
-  private Light getLight(Vector ray, Dot sourceDot, Dot targetDot, Face targetFace){
-    double radius = ray.magnitude();
-    double sphereArea = 4*Math.PI*Math.pow(radius,2);
+  private Color renderColor(ArrayList<Vector> rays, ArrayList<Dot> sourceDots, Dot targetDot, Face targetFace, int pass){
     //radiant flux by the light on the dot is the dot area divided by the total spherical area at that distance
+    float rLight,gLight,bLight;
+    rLight=0;
+    gLight=0;
+    bLight=0;
+    double totalRadiantFlux=0;
+    for(int i=0; i<sourceDots.size(); i++){
+      double radius = rays.get(i).magnitude();
+      double deltaRadiantFlux = sourceDots.get(i).light.radiantFlux * (1/Math.pow(radius,2)); //radiantflux on a dot is inversly proportional to the distance squared
+      totalRadiantFlux+=deltaRadiantFlux;
+      rLight+=(float)deltaRadiantFlux*(float)sourceDots.get(i).light.color.getRed()/255;
+      gLight+=(float)deltaRadiantFlux*(float)sourceDots.get(i).light.color.getGreen()/255;
+      bLight+=(float)deltaRadiantFlux*(float)sourceDots.get(i).light.color.getBlue()/255;
+    }
+    if(rLight>1){
+      rLight=1;
+    }
+    if(gLight>1){
+      gLight=1;
+    }
+    if(bLight>1){
+      bLight=1;
+    }
 
-    double deltaRadiantFlux = targetDot.light.radiantFlux + sourceDot.light.radiantFlux * (1/sphereArea); //radiantflux on a dot is inversly proportional to the distance squared
-    float r,g,b;
-    r=sourceDot.light.color.getRed()/255*targetDot.light.color.getRed()/255;
-    g=sourceDot.light.color.getGreen()/255*targetDot.light.color.getGreen()/255;
-    b=sourceDot.light.color.getBlue()/255*targetDot.light.color.getBlue()/255;
-
-    Color c = new Color(r,g,b);
-    return new Light(targetDot.position,deltaRadiantFlux,c);
+    float rRendered,gRendered,bRendered;
+    rRendered=targetDot.matColor.getRed()/255*rLight;
+    gRendered=targetDot.matColor.getGreen()/255*gLight;
+    bRendered=targetDot.matColor.getBlue()/255*bLight;
+    Color c = new Color(rRendered,gRendered,bRendered);
+    targetDot.setLight(new Light(targetDot.position,totalRadiantFlux,c));
+    return c;
 
   }
 }

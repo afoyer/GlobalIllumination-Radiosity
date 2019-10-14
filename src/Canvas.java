@@ -39,10 +39,10 @@ public class Canvas extends JPanel
 		Face face3 = new Face(new Vector[]{new Vector(200,300,-300),new Vector(200,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
 		face3.setColor(Color.red);
 		face3.generateDots(16);
-		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-50),new Vector(100,100,-50),new Vector(-100,100,-50),new Vector(-100,-100,-50)});
+		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-60),new Vector(100,100,-60),new Vector(-100,100,-60),new Vector(-100,-100,-60)});
 		Face[] faces = new Face[]{face,face3};
 		camera = new Camera(Vector.origin,cameraFrame,faces);
-		light = new Light(Vector.origin.setX(-100).setZ(-200), 400000, Color.white);
+		light = new Light(new Vector(190,300,-250), 200000, Color.white);
 		renderer = new Renderer();
 		renderer.addLight(light);
 		renderer.loadFaces(faces);

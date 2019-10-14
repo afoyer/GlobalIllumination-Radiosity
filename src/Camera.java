@@ -40,9 +40,9 @@ public class Camera{
           Vector frameIntersection = frame.getIntersection(position, ray);
           Vector fromCamera = frameIntersection.minus(position);
           float r,g,b;
-          r=(float)dots[d].light.color.getRed()/255*(float)dots[d].light.radiantFlux;
-          g=(float)dots[d].light.color.getGreen()/255*(float)dots[d].light.radiantFlux;
-          b=(float)dots[d].light.color.getBlue()/255*(float)dots[d].light.radiantFlux;
+          r=(float)dots[d].renderedColor.getRed()/255;
+          g=(float)dots[d].renderedColor.getGreen()/255;
+          b=(float)dots[d].renderedColor.getBlue()/255;
           if(r>1){
             r=1;
           }

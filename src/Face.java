@@ -91,6 +91,7 @@ public class Face{
         vV = vV.add(vH);
         Vector position = new Vector(vertices[0].add(vV));
         dots[counter] = new Dot(position);
+        dots[counter].matColor = color;
         dots[counter].setLight(new Light(position,0,color));
         counter ++;
       }

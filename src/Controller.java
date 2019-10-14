@@ -1,14 +1,7 @@
-
-/**
- * BasicDraw.java
- *
- *
- * Template for beginning graphics programs.
- *
- */
-
+import java.awt.*;
 import javax.swing.*;
-
+import javax.swing.event.*;
+import java.awt.event.*;
 public class Controller
 {
 
@@ -18,6 +11,7 @@ public class Controller
 
     public static void main(String[] args){
 		Canvas myCanvas = new Canvas();
+    GUI gui = new GUI(myCanvas);
 		JFrame myFrame = new JFrame();
 		myFrame.setTitle("Basic Draw");
 		myFrame.setSize(300,300);
@@ -26,7 +20,8 @@ public class Controller
 		myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		//Must use getContentPane() with JFrame.
-		myFrame.add(myCanvas);
+		myFrame.add(myCanvas, BorderLayout.CENTER);
+    myFrame.add(gui, BorderLayout.EAST);
 		myFrame.pack(); //resizes to preferred size for components.
 		myFrame.setResizable(true);
 		myFrame.setVisible(true);

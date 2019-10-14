@@ -44,6 +44,7 @@ public class Renderer{
             for(int fi=0; fi<faces.length; fi++){ //if the ray hits a face before reaching the dot in question, the dot won't be illuminated
               if(faces[fi]!=targetFace){
                 Vector intersection = faces[fi].getIntersection(sourceDot.position, ray);
+                //System.out.println(intersection);
                 //if even a single face contains the intersection, the light source does not reach the dot in question
                 if(faces[fi].contains(intersection)){
                   if(intersection.minus(sourceDot.position).magnitude()<ray.magnitude()){

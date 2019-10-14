@@ -25,13 +25,15 @@ public class Face{
    * @return - true if point lies inside face.
    */
   public boolean contains(Vector point){
-    double area1 = calculateArea(vertices[0], vertices[1], point, 2);
-    double area2 = calculateArea(vertices[1], vertices[2], point , 2);
-    double area3 = calculateArea(vertices[2], vertices[3], point , 2);
-    double area4 = calculateArea(vertices[3], vertices[0], point , 2);
-    double totalPointArea = area1 + area2 + area3 + area4;
-    if(Math.abs(totalPointArea - totalarea) < 0.0001){
-      return true;
+    if(point!=null){
+      double area1 = calculateArea(vertices[0], vertices[1], point, 2);
+      double area2 = calculateArea(vertices[1], vertices[2], point , 2);
+      double area3 = calculateArea(vertices[2], vertices[3], point , 2);
+      double area4 = calculateArea(vertices[3], vertices[0], point , 2);
+      double totalPointArea = area1 + area2 + area3 + area4;
+      if(Math.abs(totalPointArea - totalarea) < 0.0001){
+        return true;
+      }
     }
     return false;
 

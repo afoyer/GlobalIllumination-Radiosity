@@ -24,36 +24,36 @@ public class Camera{
     for(int f=0; f<faces.length; f++){
       Dot[] dots = faces[f].dots;
       for(int d=0; d<dots.length; d++){
+        Vector ray = dots[d].position.minus(position);
+        Boolean dotIsVisible = true;
         for(int fi=0; fi<faces.length; fi++){ //check all other faces for intersection
           if(faces[fi]!=faces[f]){ //excluding self
-            Vector ray = dots[d].position.minus(position);
             Vector faceIntersection = faces[fi].getIntersection(position,ray);
-            Boolean dotIsVisible = true;
             if(faces[fi].contains(faceIntersection)){
               if(faceIntersection.minus(position).magnitude() < ray.magnitude()){ //if the intersected point is closer than the dot in question
                 dotIsVisible=false;
               }
             }
-            if(dotIsVisible){
-              Vector frameIntersection = frame.getIntersection(position, ray);
-              Vector fromCamera = frameIntersection.minus(position);
-              float r,g,b;
-              r=(float)dots[d].light.color.getRed()/255*(float)dots[d].light.radiantFlux;
-              g=(float)dots[d].light.color.getGreen()/255*(float)dots[d].light.radiantFlux;
-              b=(float)dots[d].light.color.getBlue()/255*(float)dots[d].light.radiantFlux;
-              if(r>1){
-                r=1;
-              }
-              if(g>1){
-                g=1;
-              }
-              if(b>1){
-                b=1;
-              }
-              Color renderedDotColor = new Color(r,g,b);
-              pixels.add(new Pixel(fromCamera,renderedDotColor));
-            }
           }
+        }
+        if(dotIsVisible){
+          Vector frameIntersection = frame.getIntersection(position, ray);
+          Vector fromCamera = frameIntersection.minus(position);
+          float r,g,b;
+          r=(float)dots[d].light.color.getRed()/255*(float)dots[d].light.radiantFlux;
+          g=(float)dots[d].light.color.getGreen()/255*(float)dots[d].light.radiantFlux;
+          b=(float)dots[d].light.color.getBlue()/255*(float)dots[d].light.radiantFlux;
+          if(r>1){
+            r=1;
+          }
+          if(g>1){
+            g=1;
+          }
+          if(b>1){
+            b=1;
+          }
+          Color renderedDotColor = new Color(r,g,b);
+          pixels.add(new Pixel(fromCamera,renderedDotColor));
         }
       }
     }

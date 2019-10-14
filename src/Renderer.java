@@ -130,7 +130,7 @@ public class Renderer{
     double sphereArea = 4*Math.PI*Math.pow(radius,2);
     //radiant flux by the light on the dot is the dot area divided by the total spherical area at that distance
 
-    double deltaRadiantFlux = targetDot.light.radiantFlux + sourceDot.light.radiantFlux * (targetFace.dotArea/sphereArea); //radiantflux on a dot is inversly proportional to the distance squared
+    double deltaRadiantFlux = targetDot.light.radiantFlux + sourceDot.light.radiantFlux * (1/sphereArea); //radiantflux on a dot is inversly proportional to the distance squared
     float r,g,b;
     r=sourceDot.light.color.getRed()/255*(float)deltaRadiantFlux*targetDot.light.color.getRed()/255;
     g=sourceDot.light.color.getGreen()/255*(float)deltaRadiantFlux*targetDot.light.color.getGreen()/255;

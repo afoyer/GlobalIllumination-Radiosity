@@ -46,14 +46,15 @@ public class Renderer{
                 Vector intersection = faces[fi].getIntersection(sourceDot.position, ray);
                 //if even a single face contains the intersection, the light source does not reach the dot in question
                 if(faces[fi].contains(intersection)){
-                  dotIsIlluminated=false;
-                  break;
+                  if(intersection.minus(sourceDot.position).magnitude()<ray.magnitude()){
+                    dotIsIlluminated=false;
+                    break;
+                  }
                 }
               }
             }
           }
           if(dotIsIlluminated){
-            //System.out.println(ray.magnitude());
             targetDot.setLight(getLight(ray, sourceDot, targetDot, targetFace));
           }
         }
@@ -104,8 +105,10 @@ public class Renderer{
                       Vector intersection = faces[fi].getIntersection(sourceDot.position, ray);
                       //if even a single face contains the intersection, the light source does not reach the dot in question
                       if(faces[fi].contains(intersection)){
-                        dotIsIlluminated=false;
-                        break;
+                        if(intersection.minus(sourceDot.position).magnitude()<ray.magnitude()){
+                          dotIsIlluminated=false;
+                          break;
+                        }
                       }
                     }
                   }

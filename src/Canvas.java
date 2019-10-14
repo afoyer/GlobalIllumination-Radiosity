@@ -37,12 +37,12 @@ public class Canvas extends JPanel
 		face2.setColor(Color.white);
 		face2.generateDots(16);
 		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-50),new Vector(100,100,-50),new Vector(-100,100,-50),new Vector(-100,-100,-50)});
-		camera = new Camera(Vector.origin,cameraFrame);
-		light = new Light(Vector.origin.setX(-200).setZ(-100), 30000, Color.white);
+		Face[] faces = new Face[]{face,face2};
+		camera = new Camera(Vector.origin,cameraFrame,faces);
+		light = new Light(Vector.origin.setX(-200).setZ(-100), 400000, Color.white);
 		renderer = new Renderer();
 		renderer.addLight(light);
-
-		renderer.loadFaces(new Face[]{face});
+		renderer.loadFaces(faces);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class Canvas extends JPanel
 		super.paintComponent(g);  //without this no background color set.
 		Graphics2D g2d = (Graphics2D)g; //cast so we can use JAVA2D.
 		renderer.bake(0);
-		BufferedImage bi = camera.draw(renderer.bakedDots);
+		BufferedImage bi = camera.draw();
 		g2d.drawImage(bi, 0, 0, width, height, 0, 0, cameraFrame.getWidth(),cameraFrame.getHeight(), null);
 
 	}

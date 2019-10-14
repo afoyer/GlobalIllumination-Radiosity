@@ -46,7 +46,7 @@ public class Canvas extends JPanel
 		renderer = new Renderer();
 		renderer.addLight(light);
 		renderer.loadFaces(faces);
-		renderer.bake(1);
+		renderer.bake(0);
 
 	}
 

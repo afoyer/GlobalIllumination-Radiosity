@@ -5,8 +5,10 @@ public class Dot{
   Color matColor;
   Color renderedColor;
   Vector position;
+  Color sourceLightColor;
   public Dot(Vector position){
     this.position = position;
+    sourceLightColor=Color.black;
   }
   public Vector getPosition(){
     return position;

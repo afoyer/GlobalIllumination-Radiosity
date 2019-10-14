@@ -137,9 +137,10 @@ public class Renderer{
   private Color renderColor(ArrayList<Vector> rays, ArrayList<Dot> sourceDots, Dot targetDot, Face targetFace, int pass){
     //radiant flux by the light on the dot is the dot area divided by the total spherical area at that distance
     float rLight,gLight,bLight;
-    rLight=0;
-    gLight=0;
-    bLight=0;
+    rLight=(float)targetDot.sourceLightColor.getRed()/255;
+    gLight=(float)targetDot.sourceLightColor.getGreen()/255;
+    bLight=(float)targetDot.sourceLightColor.getBlue()/255;
+
     double totalRadiantFlux=0;
     for(int i=0; i<sourceDots.size(); i++){
       double radius = rays.get(i).magnitude();
@@ -158,11 +159,11 @@ public class Renderer{
     if(bLight>1){
       bLight=1;
     }
-
+    targetDot.sourceLightColor=new Color(rLight,gLight,bLight);
     float rRendered,gRendered,bRendered;
-    rRendered=targetDot.matColor.getRed()/255*rLight;
-    gRendered=targetDot.matColor.getGreen()/255*gLight;
-    bRendered=targetDot.matColor.getBlue()/255*bLight;
+    rRendered=(float)targetDot.matColor.getRed()/255*rLight;
+    gRendered=(float)targetDot.matColor.getGreen()/255*gLight;
+    bRendered=(float)targetDot.matColor.getBlue()/255*bLight;
     Color c = new Color(rRendered,gRendered,bRendered);
     targetDot.setLight(new Light(targetDot.position,totalRadiantFlux,c));
     return c;

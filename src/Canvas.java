@@ -15,7 +15,7 @@ import java.awt.image.*;
 
 public class Canvas extends JPanel
 {
-	final double dotarea = 4;
+	final double dotarea = 36;
 	Renderer renderer;
 	CameraFrame cameraFrame;
 	Camera camera;

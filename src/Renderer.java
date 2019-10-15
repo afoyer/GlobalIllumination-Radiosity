@@ -144,6 +144,7 @@ public class Renderer{
           }
           targetDot.renderedColor = renderColor(rays, sourceDots, targetDot, targetFace,pass);
         }
+        System.out.println();
       }
       pass++;
       globalIlluminationBaker(maxPass,pass++);

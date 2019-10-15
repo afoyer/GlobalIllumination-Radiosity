@@ -15,12 +15,10 @@ import java.awt.image.*;
 
 public class Canvas extends JPanel
 {
-	final double dotarea = 16;
+	final double dotarea = 49;
 	Renderer renderer;
 	CameraFrame cameraFrame;
 	Camera camera;
-	Light light;
-	Light light2;
 	Face face;
 	int width;
 	int height;
@@ -34,39 +32,32 @@ public class Canvas extends JPanel
 
 		face = new Face(new Vector[]{new Vector(-300,300,-300),new Vector(-300,-300,-300),new Vector(300,-300,-300),new Vector(300,300,-300)});
 		face.setColor(Color.white);
-		face.generateDots(dotarea);
+		face.generateDots(dotarea,0);
 		Face face2 = new Face(new Vector[]{new Vector(-300,300,0),new Vector(-300,-300,0),new Vector(-300,-300,-300),new Vector(-300,300,-300)});
 		face2.setColor(Color.red);
-		face2.generateDots(dotarea);
+		face2.generateDots(dotarea,0);
 		Face face3 = new Face(new Vector[]{new Vector(300,300,-300),new Vector(300,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
 		face3.setColor(Color.green);
-		face3.generateDots(dotarea);
+		face3.generateDots(dotarea,0);
 		Face face4 = new Face(new Vector[]{new Vector(-100,100,-250),new Vector(-100,-100,-250),new Vector(100,-100,-250),new Vector(100,100,-250)});
 		face4.setColor(Color.white);
-		face4.generateDots(dotarea);
-		Face face5 = new Face(new Vector[]{new Vector(100,100,-251),new Vector(100,-100,-251),new Vector(-100,-100,-251),new Vector(-100,100,-251)});
+		face4.generateDots(dotarea,0);
+		Face face5 = new Face(new Vector[]{new Vector(100,100,-250),new Vector(100,-100,-250),new Vector(-100,-100,-250),new Vector(-100,100,-250)});
 		face5.setColor(Color.white);
-		face5.generateDots(dotarea);
+		face5.generateDots(dotarea,0);
+		Face areaLight = new Face(new Vector[]{new Vector(50,-300,50),new Vector(50,-300,0),new Vector(-50,-300,0),new Vector(-50,-300,50)});
+		areaLight.setColor(Color.white);
+		areaLight.generateDots(dotarea,1000);
 		int frameScale=100; //change this for camera frame size (smaller=more pixallated but less space in between pixels)
 		int frameWidth=10*frameScale;
 		int frameHeight=10*frameScale;
 		int frameDepth=3*frameScale;
 		cameraFrame = new CameraFrame(new Vector[]{new Vector(frameWidth/2,-frameHeight/2,-frameDepth),new Vector(frameWidth/2,frameHeight/2,-frameDepth),new Vector(-frameWidth/2,frameHeight/2,-frameDepth),new Vector(-frameWidth/2,-frameHeight/2,-frameDepth)});
-		Face[] faces = new Face[]{face,face2, face3};
+		Face[] faces = new Face[]{face,face2,face3,face4,areaLight};
 		camera = new Camera(Vector.origin,cameraFrame,faces);
-		light = new Light(new Vector(190,0,50), 50000, Color.white);
-		light2 = new Light(new Vector(-200,0,50), 50000, Color.white);
 		renderer = new Renderer();
-		renderer.addLight(light);
-		renderer.addLight(light2);
-		Light gridLight = new Light(new Vector(190,0,50), 5000, Color.white);
-		Light[] array = light.createLightGrid(new Vector(-100,-100,-100), 200,10,false);
-		for(int i = 0 ; i < array.length; i++){
-			//renderer.addLight(array[i]);
-		}
-
 		renderer.loadFaces(faces);
-		renderer.bake(1);
+		renderer.bake(2);
 
 	}
 

@@ -25,55 +25,6 @@ public class Renderer{
     faces=fs;
   }
   public void bake(int maxPass){
-    System.out.println("Setting lights");
-    //render diffused lights on each dot from the direct light source
-    for(int l=0; l<directLights.size(); l++){
-      for(int f=0; f<faces.length; f++){
-        Face targetFace = faces[f];
-        for(int d=0; d<targetFace.dots.length; d++){
-          Dot targetDot = targetFace.dots[d]; //for each target dot
-          ArrayList<Dot> sourceDots = new ArrayList<Dot>();
-          ArrayList<Vector> rays = new ArrayList<Vector>();
-          Dot sourceDot = new Dot(directLights.get(l).position);
-          sourceDot.setLight(directLights.get(l));
-          Vector ray = targetDot.position.minus(sourceDot.position); //draw line from light source to target dot
-
-          Boolean dotIsIlluminatedBySource = true;
-          //check if the target dot is illuminated by the direct light source
-          if(ray.normalize().dot(targetFace.getNormal()) > 0){//if target face isn't facing the light source
-            dotIsIlluminatedBySource=false;
-          }
-          else{ //check if there are any obstacles before reaching the target dot
-            for(int fi=0; fi<faces.length; fi++){ //if the ray hits a face before reaching the dot in question, the dot won't be illuminated
-              if(faces[fi]!=targetFace){
-                Vector intersection = faces[fi].getIntersection(sourceDot.position, ray);
-                //System.out.println(intersection);
-                //if even a single face contains the intersection, the light source does not reach the dot in question
-                if(faces[fi].contains(intersection)){
-                  if(intersection.minus(sourceDot.position).magnitude()<ray.magnitude()){
-                    dotIsIlluminatedBySource=false;
-                    break;
-                  }
-                }
-              }
-            }
-          }
-          if(dotIsIlluminatedBySource){
-            sourceDots.add(sourceDot);
-            rays.add(ray);
-          }
-          targetDot.renderedColor = renderColor(rays, sourceDots, targetDot, targetFace,-1);
-        }
-      }
-    }
-    /*
-    for(int f=0; f<faces.length; f++){
-      for(int d=0; d<faces[f].dots.length; d++){
-        System.out.println(faces[f].dots[d].light.radiantFlux);
-      }
-    }
-    */
-    System.out.println("Set light baking done.");
     globalIlluminationBaker(maxPass,0);
 
     //save the dots in each face into an array of dots, a kind of a lightmap
@@ -159,9 +110,8 @@ public class Renderer{
     rLight=(float)targetDot.sourceLightColor.getRed()/255;
     gLight=(float)targetDot.sourceLightColor.getGreen()/255;
     bLight=(float)targetDot.sourceLightColor.getBlue()/255;
-    if(pass>-1){
-      multiplier = 5;
-      //System.out.println(new Color(rLight,gLight,bLight));
+    if(pass>0){
+      multiplier = 10;
     }
 
     double totalRadiantFlux=0;

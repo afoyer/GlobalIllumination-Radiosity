@@ -64,7 +64,7 @@ public class Face{
 
    * @param dotArea - area that the dot would create between each dots.
    */
-  public void generateDots(double dotArea){
+  public void generateDots(double dotArea,double initialRadiantFlux){
     this.dotArea=dotArea;
      //Unsure if this will be one below.
     int counter = 0;
@@ -86,7 +86,7 @@ public class Face{
         Vector position = new Vector(vertices[0].plus(vV));
         dots[counter] = new Dot(position);
         dots[counter].matColor = color;
-        dots[counter].setLight(new Light(position,0,color));
+        dots[counter].setLight(new Light(position,initialRadiantFlux,color));
 
         double buffer=0.1*length;
         dots[counter].vertices[0]=position.minus(vectorH.normalize().scale(buffer+length/2)).minus(vectorV.normalize().scale(buffer+length/2));

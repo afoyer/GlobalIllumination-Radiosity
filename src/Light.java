@@ -26,7 +26,7 @@ public class Light{
     if (horizontal){
       for (int i = 0; i < length/density; i++){
         for(int j = 0; j < length/density; i++){
-          lightarray[counter] = new Light((p.add(new Vector(j*density,0,i*density))), radiantFlux/(length/density*(length/density)),color);
+          lightarray[counter] = new Light((p.plus(new Vector(j*density,0,i*density))), radiantFlux/(length/density*(length/density)),color);
           counter++;
         }
       }
@@ -34,7 +34,7 @@ public class Light{
     else{
       for (int i = 0; i < length/density; i++){
         for(int j = 0; j < length/density; j++){
-          lightarray[counter] = new Light((p.add(new Vector(i*density,j*density, 0))), radiantFlux / (length/density),color);
+          lightarray[counter] = new Light((p.plus(new Vector(i*density,j*density, 0))), radiantFlux / (length/density),color);
           counter++;
         }
       }

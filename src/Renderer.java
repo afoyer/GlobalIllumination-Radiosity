@@ -25,6 +25,7 @@ public class Renderer{
     faces=fs;
   }
   public void bake(int maxPass){
+    System.out.println("Setting lights");
     //render diffused lights on each dot from the direct light source
     for(int l=0; l<directLights.size(); l++){
       for(int f=0; f<faces.length; f++){

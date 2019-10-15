@@ -10,18 +10,9 @@ public class Camera{
     frame=cf;
     this.faces=faces;
   }
-  private class Pixel{
-    Vector position;
-    Color color;
-    Pixel(Vector p, Color c){
-      position=p;
-      color=c;
-    }
-  }
   public BufferedImage draw(){
     BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_BGR);
     Graphics2D g2d = image.createGraphics();
-    ArrayList<Pixel> pixels = new ArrayList<Pixel>();
     for(int f=0; f<faces.length; f++){
       Dot[] dots = faces[f].dots;
       for(int d=0; d<dots.length; d++){
@@ -39,14 +30,22 @@ public class Camera{
         }
         if(dotIsVisible){
           int g2dPixels[][] = new int[2][4];
+          Boolean notParallel=true;
           for(int i=0; i<g2dPixels[0].length; i++){
             Vector frameIntersection = frame.getIntersection(position, dots[d].vertices[i].minus(position));
-            Vector cameraFrame = frameIntersection.minus(position);
-            g2dPixels[0][i]=(int)cameraFrame.getX();
-            g2dPixels[1][i]=(int)cameraFrame.getY();
+            if(frameIntersection!=null){
+              Vector cameraFrame = frameIntersection.minus(position);  
+              g2dPixels[0][i]=(int)cameraFrame.getX()+frame.getWidth()/2;
+              g2dPixels[1][i]=(int)cameraFrame.getY()+frame.getHeight()/2;
+            }
+            else{
+              notParallel=false;
+            }
           }
-          g2d.setColor(dots[d].renderedColor);
-          g2d.fillPolygon(g2dPixels[0],g2dPixels[1],4);
+          if(notParallel){
+            g2d.setColor(dots[d].renderedColor);
+            g2d.fillPolygon(g2dPixels[0],g2dPixels[1],4);
+          }
         }
       }
     }

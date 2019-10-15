@@ -87,10 +87,12 @@ public class Face{
         dots[counter] = new Dot(position);
         dots[counter].matColor = color;
         dots[counter].setLight(new Light(position,0,color));
-        dots[counter].vertices[0]=position.minus(vectorH.normalize().scale(length/2)).minus(vectorV.normalize().scale(length/2));
-        dots[counter].vertices[1]=position.minus(vectorH.normalize().scale(length/2)).plus(vectorV.normalize().scale(length/2));
-        dots[counter].vertices[2]=position.plus(vectorH.normalize().scale(length/2)).plus(vectorV.normalize().scale(length/2));
-        dots[counter].vertices[3]=position.plus(vectorH.normalize().scale(length/2)).minus(vectorV.normalize().scale(length/2));
+
+        double buffer=0.1*length;
+        dots[counter].vertices[0]=position.minus(vectorH.normalize().scale(buffer+length/2)).minus(vectorV.normalize().scale(buffer+length/2));
+        dots[counter].vertices[1]=position.minus(vectorH.normalize().scale(buffer+length/2)).plus(vectorV.normalize().scale(buffer+length/2));
+        dots[counter].vertices[2]=position.plus(vectorH.normalize().scale(buffer+length/2)).plus(vectorV.normalize().scale(buffer+length/2));
+        dots[counter].vertices[3]=position.plus(vectorH.normalize().scale(buffer+length/2)).minus(vectorV.normalize().scale(buffer+length/2));
         counter++;
       }
     }

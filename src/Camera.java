@@ -65,22 +65,29 @@ public class Camera{
     for(int i=0; i<pixels.size(); i++){
       int[] pixelPos = new int[]{(int)pixels.get(i).position.getX(),(int)pixels.get(i).position.getY()};
       int[] pixelStartPos = new int[]{(int)pixels.get(startIndex).position.getX(),(int)pixels.get(startIndex).position.getY()};
+      //System.out.println("pixelPos "+pixelPos[0]+", "+pixelPos[1]);
+      //System.out.println("pixelStartPos "+pixelStartPos[0]+", "+pixelStartPos[1]);
       if(pixelPos[0]==pixelStartPos[0] && pixelPos[1]==pixelStartPos[1]){
-        rSum=(float)pixels.get(i).color.getRed()/255;
-        gSum=(float)pixels.get(i).color.getGreen()/255;
-        bSum=(float)pixels.get(i).color.getBlue()/255;
+        rSum+=(float)pixels.get(i).color.getRed()/255;
+        gSum+=(float)pixels.get(i).color.getGreen()/255;
+        bSum+=(float)pixels.get(i).color.getBlue()/255;
+        //System.out.println("pixel color: "+pixels.get(i).color);
       }
       else{
         float change = i-startIndex;
-        //System.out.println("pos :"+positions[0][i]+", "+positions[1][i]);
-        //System.out.println(rSum+", "+gSum+", "+bSum);
-        Color c = new Color(rSum,gSum,bSum);
+        //System.out.println("change: "+change);
+        //System.out.println("average: "+new Vector(rSum/change,gSum/change,bSum/change));
+        Color c = new Color(rSum/change,gSum/change,bSum/change);
+
         int x = pixelPos[0]+frame.getWidth()/2;
         int y = pixelPos[1]+frame.getHeight()/2;
         if(x > 0 && x < frame.getWidth() && y > 0 && y < frame.getHeight()){
           image.setRGB(x,y,c.getRGB());
         }
         startIndex=i;
+        rSum=(float)pixels.get(startIndex).color.getRed()/255;
+        gSum=(float)pixels.get(startIndex).color.getGreen()/255;
+        bSum=(float)pixels.get(startIndex).color.getBlue()/255;
       }
     }
     return image;

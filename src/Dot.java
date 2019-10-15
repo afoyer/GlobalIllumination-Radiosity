@@ -6,9 +6,11 @@ public class Dot{
   Color renderedColor;
   Vector position;
   Color sourceLightColor;
+  Vector[] vertices;
   public Dot(Vector position){
     this.position = position;
     sourceLightColor=Color.black;
+    vertices = new Vector[4];
   }
   public Vector getPosition(){
     return position;

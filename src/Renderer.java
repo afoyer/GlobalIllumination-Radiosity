@@ -39,7 +39,7 @@ public class Renderer{
 
           Boolean dotIsIlluminatedBySource = true;
           //check if the target dot is illuminated by the direct light source
-          if(ray.getUnit().dot(targetFace.getNormal()) > 0){//if target face isn't facing the light source
+          if(ray.normalize().dot(targetFace.getNormal()) > 0){//if target face isn't facing the light source
             dotIsIlluminatedBySource=false;
           }
           else{ //check if there are any obstacles before reaching the target dot
@@ -118,7 +118,7 @@ public class Renderer{
                 Vector ray = targetDot.position.minus(sourceDot.position); //draw line from light source to target dot
                 Boolean dotIsIlluminatedBySource = true;
                 //checking if the light from the source dot can reach the target dot
-                if(ray.getUnit().dot(targetFace.getNormal()) > 0 || ray.getUnit().dot(sourceFace.getNormal()) < 0){//if ray doesn't hit the target face or if the ray points towards from the source face
+                if(ray.normalize().dot(targetFace.getNormal()) > 0 || ray.normalize().dot(sourceFace.getNormal()) < 0){//if ray doesn't hit the target face or if the ray points towards from the source face
                   dotIsIlluminatedBySource=false;
                 }
                 else{ //check if there are any obstacles before reaching the target dot
@@ -159,7 +159,7 @@ public class Renderer{
     gLight=(float)targetDot.sourceLightColor.getGreen()/255;
     bLight=(float)targetDot.sourceLightColor.getBlue()/255;
     if(pass>-1){
-      multiplier = 3/2;
+      multiplier = 5;
       //System.out.println(new Color(rLight,gLight,bLight));
     }
 

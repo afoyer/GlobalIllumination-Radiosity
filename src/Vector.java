@@ -36,40 +36,6 @@ public class Vector{
   }
 
     /**
-     * Rotates a vector around the X axis
-     * @param angle - angle to be rotated around
-     * @param center - point to be rotated on.
-     */
-  public void rotateX(double angle, Vector center){//rotate a point around a center by angle degrees on its local x Axis
-    Vector temp = this.returnRotateX(angle,center);
-    x=temp.getX();
-    y=temp.getY();
-    z=temp.getZ();
-  }
-    /**
-     * Rotates a vector around the Y axis
-     * @param angle - angle to be rotated around
-     * @param center - point to be rotated on.
-     */
-  public void rotateY(double angle, Vector center){//rotate a point around a center by angle degrees on its local y Axis
-    Vector temp = this.returnRotateY(angle,center);
-    x=temp.getX();
-    y=temp.getY();
-    z=temp.getZ();
-  }
-    /**
-     * Rotates a vector around the Z axis
-     * @param angle - angle to be rotated around
-     * @param center - point to be rotated on.
-     */
-  public void rotateZ(double angle, Vector center){//rotate a point around a center by angle degrees on its local z Axis
-    Vector temp = this.returnRotateZ(angle,center);
-    x=temp.getX();
-    y=temp.getY();
-    z=temp.getZ();
-  }
-
-    /**
      * Finds the angle between two vectors.
      * @param v2 - other vector
      * @return angle (in radians)
@@ -79,13 +45,13 @@ public class Vector{
   }
 
     /**
-     * Like rotate X but
+     * Rotates vector on X axis
      * returns a Vector instead of changing the current
      * @param angle
      * @param center
      * @return
      */
-  public Vector returnRotateX(double angle, Vector center){
+  public Vector rotateX(double angle, Vector center){
     double[] tempVector = new double[3];
     double rad = Math.toRadians(angle);
     double tx=getX()-center.getX();
@@ -97,13 +63,13 @@ public class Vector{
     return new Vector(tempVector[0]+center.getX(),tempVector[1]+center.getY(),tempVector[2]+center.getZ());
   }
     /**
-     * Like rotate Y but
+     * Rotates vector on Y axis
      * returns a Vector instead of changing the current
      * @param angle
      * @param center
      * @return
      */
-  public Vector returnRotateY(double angle, Vector center){//returns a Vector insteado of changing the current
+  public Vector rotateY(double angle, Vector center){//returns a Vector insteado of changing the current
     double[] tempVector = new double[3];
     double rad = Math.toRadians(angle);
     double tx=getX()-center.getX();
@@ -115,13 +81,13 @@ public class Vector{
     return new Vector(tempVector[0]+center.getX(),tempVector[1]+center.getY(),tempVector[2]+center.getZ());
   }
     /**
-     * Like rotate Z but
+     * Rotates vector on Z axis
      * returns a Vector instead of changing the current
      * @param angle
      * @param center
      * @return
      */
-  public Vector returnRotateZ(double angle, Vector center){//returns a Vector insteado of changing the current
+  public Vector rotateZ(double angle, Vector center){//returns a Vector insteado of changing the current
     double[] tempVector = new double[3];
     double rad = Math.toRadians(angle);
     double tx=getX()-center.getX();
@@ -140,11 +106,11 @@ public class Vector{
     Vector tempV = this.clone();
     double toY = vector.angleBetween(Vector.yHat);
     double toZ = v.angleBetween(Vector.zHat);
-    tempV.rotateY(-toZ,center);
-    tempV.rotateX(-toY,center);
-    tempV.rotateY(angle,center);
-    tempV.rotateX(toY,center);
-    tempV.rotateY(toZ,center);
+    tempV = tempV.rotateY(-toZ,center);
+    tempV = tempV.rotateX(-toY,center);
+    tempV = tempV.rotateY(angle,center);
+    tempV = tempV.rotateX(toY,center);
+    tempV = tempV.rotateY(toZ,center);
     return tempV;
   }
 
@@ -162,7 +128,7 @@ public class Vector{
      * @param p - other vector
      * @return - newly added vector.
      */
-  public Vector add(Vector p){ //adds vector
+  public Vector plus(Vector p){ //adds vector
     return new Vector(x+p.getX(),y+p.getY(),z+p.getZ());
   }
 
@@ -250,23 +216,6 @@ public class Vector{
 
     return Math.sqrt(Math.pow(getX(),2)+Math.pow(getY(),2)+Math.pow(getZ(),2));
   }
-
-    /**
-     * Gets the unit vector (divides coordinates by magnitude
-     * @return - scaled vector.
-     */
-  public Vector getUnit()
-  {
-    return new Vector(getX()/magnitude(),getY()/magnitude(),getZ()/magnitude());
-  }
-
-  public Vector transformPerspective(double fov){
-    Vector p = this.clone();
-    p.x=getX()/-getZ()/Math.tan(fov/2);
-    p.y=getY()/-getZ()/Math.tan(fov/2);
-    return p;
-  }
-
     /**
      * Returns identical vector
      * @return this vector.
@@ -297,6 +246,10 @@ public class Vector{
     ys[index] = this.toInt()[1];
   }
 
+  /**
+   * Gets the unit vector (divides coordinates by magnitude
+   * @return - scaled vector.
+   */
   public Vector normalize(){
     return new Vector(x/magnitude(),y/magnitude(),z/magnitude());
   }

@@ -15,7 +15,7 @@ import java.awt.image.*;
 
 public class Canvas extends JPanel
 {
-	final double dotarea = 4;
+	final double dotarea = 25;
 	Renderer renderer;
 	CameraFrame cameraFrame;
 	Camera camera;
@@ -47,7 +47,7 @@ public class Canvas extends JPanel
 		Face face5 = new Face(new Vector[]{new Vector(100,100,-251),new Vector(100,-100,-251),new Vector(-100,-100,-251),new Vector(-100,100,-251)});
 		face5.setColor(Color.white);
 		face5.generateDots(dotarea);
-		int frameScale=50; //change this for camera frame size
+		int frameScale=100; //change this for camera frame size (smaller=more pixallated but less space in between pixels)
 		int frameWidth=10*frameScale;
 		int frameHeight=10*frameScale;
 		int frameDepth=3*frameScale;

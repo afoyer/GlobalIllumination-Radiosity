@@ -14,7 +14,7 @@ public class Face{
    */
   public Face(Vector[] vertices){
     this.vertices = vertices;
-    normal = vertices[1].minus(vertices[0]).cross(vertices[2].minus(vertices[1])).getUnit();
+    normal = vertices[1].minus(vertices[0]).cross(vertices[2].minus(vertices[1])).normalize();
     totalarea = calculateArea(vertices[0], vertices[1], vertices[2] , 1);
   }
 
@@ -51,7 +51,7 @@ public class Face{
     }
     double t = ((normal.dot(vertices[0]) - normal.dot(start))/ normal.dot(direction.normalize()));
 
-    return start.add(direction.normalize().scale(t));
+    return start.plus(direction.normalize().scale(t));
   }
 
   /**
@@ -76,24 +76,22 @@ public class Face{
     int sectionH = (int) (vectorH.magnitude()/length);
     dots = new Dot[(sectionH-1)*(sectionV-1)];
 
-    for(double i = 1; i < sectionH; i += 1){
-      double xHmov = vertices[0].getX() + i/sectionH*(vectorH.getX()); //shift in x position on "horizontal" vector
-      double yHmov = vertices[0].getY() + i/sectionH*(vectorH.getY()); //shift in y position on "horizontal" vector
-      double zHmov = vertices[0].getZ() + i/sectionH*(vectorH.getZ()); //shift in z position on "horizontal" vector
-      Vector vH = new Vector(xHmov,yHmov,zHmov);
+    for(double i = 1; i < sectionH; i++){
+      Vector vH = vertices[0].plus(vectorH.scale(i/sectionH));//shift on "horizontal" vector
       vH = vH.minus(vertices[0]);
-      for(double j = 1; j < sectionV; j+= 1){
-        double xVmov = vertices[0].getX() + j/sectionV*(vectorV.getX()); //shift in x position on "vertical" vector
-        double yVmov = vertices[0].getY() + j/sectionV*(vectorV.getY()); //shift in y position on "vertical" vector
-        double zVmov = vertices[0].getZ() + j/sectionV*(vectorV.getZ()); //shift in z position on "vertical" vector
-        Vector vV = new Vector(xVmov,yVmov,zVmov);
+      for(double j = 1; j < sectionV; j++){
+        Vector vV = vertices[0].plus(vectorV.scale(j/sectionV));//shift on "horizontal" vector
         vV = vV.minus(vertices[0]);
-        vV = vV.add(vH);
-        Vector position = new Vector(vertices[0].add(vV));
+        vV = vV.plus(vH);
+        Vector position = new Vector(vertices[0].plus(vV));
         dots[counter] = new Dot(position);
         dots[counter].matColor = color;
         dots[counter].setLight(new Light(position,0,color));
-        counter ++;
+        dots[counter].vertices[0]=position.minus(vectorH.normalize().scale(length/2)).minus(vectorV.normalize().scale(length/2));
+        dots[counter].vertices[1]=position.minus(vectorH.normalize().scale(length/2)).plus(vectorV.normalize().scale(length/2));
+        dots[counter].vertices[2]=position.plus(vectorH.normalize().scale(length/2)).plus(vectorV.normalize().scale(length/2));
+        dots[counter].vertices[3]=position.plus(vectorH.normalize().scale(length/2)).minus(vectorV.normalize().scale(length/2));
+        counter++;
       }
     }
   }

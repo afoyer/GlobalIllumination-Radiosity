@@ -39,21 +39,7 @@ public class Camera{
         if(dotIsVisible){
           Vector frameIntersection = frame.getIntersection(position, ray);
           Vector fromCamera = frameIntersection.minus(position);
-          float r,g,b;
-          r=(float)dots[d].renderedColor.getRed()/255;
-          g=(float)dots[d].renderedColor.getGreen()/255;
-          b=(float)dots[d].renderedColor.getBlue()/255;
-          if(r>1){
-            r=1;
-          }
-          if(g>1){
-            g=1;
-          }
-          if(b>1){
-            b=1;
-          }
-          Color renderedDotColor = new Color(r,g,b);
-          pixels.add(new Pixel(fromCamera,renderedDotColor));
+          pixels.add(new Pixel(fromCamera,dots[d].renderedColor));
         }
       }
     }

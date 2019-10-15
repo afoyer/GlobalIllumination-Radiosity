@@ -15,7 +15,7 @@ import java.awt.image.*;
 
 public class Canvas extends JPanel
 {
-	final double dotarea = 36;
+	final double dotarea = 16;
 	Renderer renderer;
 	CameraFrame cameraFrame;
 	Camera camera;
@@ -50,13 +50,17 @@ public class Canvas extends JPanel
 		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-60),new Vector(100,100,-60),new Vector(-100,100,-60),new Vector(-100,-100,-60)});
 		Face[] faces = new Face[]{face,face2, face3, face4};
 		camera = new Camera(Vector.origin,cameraFrame,faces);
-		light = new Light(new Vector(190,0,50), 50000, Color.white);
+		light = new Light(new Vector(190,0,50), 7000, Color.white);
 		light2 = new Light(new Vector(-200,0,50), 50000, Color.white);
 		renderer = new Renderer();
-		renderer.addLight(light);
-
-		renderer.addLight(light2);
-		renderer.addLight(new Light(new Vector(0,50,50), 50000, Color.white));
+		Light[] array = light.createLightGrid(new Vector(-100,-100,-100), 200,10,false);
+		for(int i = 0 ; i < array.length; i++){
+			renderer.addLight(array[i]);
+		}
+//		renderer.addLight(light);
+//
+//		renderer.addLight(light2);
+//		renderer.addLight(new Light(new Vector(0,50,50), 50000, Color.white));
 		renderer.loadFaces(faces);
 		renderer.bake(1);
 

@@ -82,7 +82,7 @@ public class Canvas extends JPanel
 		camera = new Camera(Vector.origin,cameraFrame,faces);
 		renderer = new Renderer();
 		renderer.loadFaces(faces);
-		renderer.bake(2);
+		renderer.bake(4);
 
 
 

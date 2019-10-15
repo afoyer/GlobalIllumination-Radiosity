@@ -10,17 +10,9 @@ public class Camera{
     frame=cf;
     this.faces=faces;
   }
-  private class Pixel{
-    Vector position;
-    Color color;
-    Pixel(Vector p, Color c){
-      position=p;
-      color=c;
-    }
-  }
   public BufferedImage draw(){
     BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_BGR);
-    ArrayList<Pixel> pixels = new ArrayList<Pixel>();
+    Graphics2D g2d = image.createGraphics();
     for(int f=0; f<faces.length; f++){
       Dot[] dots = faces[f].dots;
       for(int d=0; d<dots.length; d++){
@@ -37,45 +29,27 @@ public class Camera{
           }
         }
         if(dotIsVisible){
-          Vector frameIntersection = frame.getIntersection(position, ray);
-          Vector fromCamera = frameIntersection.minus(position);
-          pixels.add(new Pixel(fromCamera,dots[d].renderedColor));
+          int g2dPixels[][] = new int[2][4];
+          Boolean notParallel=true;
+          for(int i=0; i<g2dPixels[0].length; i++){
+            Vector frameIntersection = frame.getIntersection(position, dots[d].vertices[i].minus(position));
+            if(frameIntersection!=null){
+              Vector cameraFrame = frameIntersection.minus(position);  
+              g2dPixels[0][i]=(int)cameraFrame.getX()+frame.getWidth()/2;
+              g2dPixels[1][i]=(int)cameraFrame.getY()+frame.getHeight()/2;
+            }
+            else{
+              notParallel=false;
+            }
+          }
+          if(notParallel){
+            g2d.setColor(dots[d].renderedColor);
+            g2d.fillPolygon(g2dPixels[0],g2dPixels[1],4);
+          }
         }
       }
     }
 
-    int startIndex=0;
-    float rSum=0;
-    float gSum=0;
-    float bSum=0;
-    for(int i=0; i<pixels.size(); i++){
-      int[] pixelPos = new int[]{(int)pixels.get(i).position.getX(),(int)pixels.get(i).position.getY()};
-      int[] pixelStartPos = new int[]{(int)pixels.get(startIndex).position.getX(),(int)pixels.get(startIndex).position.getY()};
-      //System.out.println("pixelPos "+pixelPos[0]+", "+pixelPos[1]);
-      //System.out.println("pixelStartPos "+pixelStartPos[0]+", "+pixelStartPos[1]);
-      if(pixelPos[0]==pixelStartPos[0] && pixelPos[1]==pixelStartPos[1]){
-        rSum+=(float)pixels.get(i).color.getRed()/255;
-        gSum+=(float)pixels.get(i).color.getGreen()/255;
-        bSum+=(float)pixels.get(i).color.getBlue()/255;
-        //System.out.println("pixel color: "+pixels.get(i).color);
-      }
-      else{
-        float change = i-startIndex;
-        //System.out.println("change: "+change);
-        //System.out.println("average: "+new Vector(rSum/change,gSum/change,bSum/change));
-        Color c = new Color(rSum/change,gSum/change,bSum/change);
-
-        int x = pixelPos[0]+frame.getWidth()/2;
-        int y = pixelPos[1]+frame.getHeight()/2;
-        if(x > 0 && x < frame.getWidth() && y > 0 && y < frame.getHeight()){
-          image.setRGB(x,y,c.getRGB());
-        }
-        startIndex=i;
-        rSum=(float)pixels.get(startIndex).color.getRed()/255;
-        gSum=(float)pixels.get(startIndex).color.getGreen()/255;
-        bSum=(float)pixels.get(startIndex).color.getBlue()/255;
-      }
-    }
     return image;
   }
 }

@@ -15,7 +15,7 @@ import java.awt.image.*;
 
 public class Canvas extends JPanel
 {
-	final double dotarea = 36;
+	final double dotarea = 4;
 	Renderer renderer;
 	CameraFrame cameraFrame;
 	Camera camera;
@@ -47,7 +47,11 @@ public class Canvas extends JPanel
 		Face face5 = new Face(new Vector[]{new Vector(100,100,-251),new Vector(100,-100,-251),new Vector(-100,-100,-251),new Vector(-100,100,-251)});
 		face5.setColor(Color.white);
 		face5.generateDots(dotarea);
-		cameraFrame = new CameraFrame(new Vector[]{new Vector(100,-100,-60),new Vector(100,100,-60),new Vector(-100,100,-60),new Vector(-100,-100,-60)});
+		int frameScale=50; //change this for camera frame size
+		int frameWidth=10*frameScale;
+		int frameHeight=10*frameScale;
+		int frameDepth=3*frameScale;
+		cameraFrame = new CameraFrame(new Vector[]{new Vector(frameWidth/2,-frameHeight/2,-frameDepth),new Vector(frameWidth/2,frameHeight/2,-frameDepth),new Vector(-frameWidth/2,frameHeight/2,-frameDepth),new Vector(-frameWidth/2,-frameHeight/2,-frameDepth)});
 		Face[] faces = new Face[]{face,face2, face3, face4};
 		camera = new Camera(Vector.origin,cameraFrame,faces);
 		light = new Light(new Vector(190,0,50), 50000, Color.white);
@@ -58,7 +62,7 @@ public class Canvas extends JPanel
 		renderer.addLight(light2);
 		renderer.addLight(new Light(new Vector(0,50,50), 50000, Color.white));
 		renderer.loadFaces(faces);
-		renderer.bake(1);
+		renderer.bake(0);
 
 	}
 

@@ -111,7 +111,7 @@ public class Renderer{
     gLight=(float)targetDot.sourceLightColor.getGreen()/255;
     bLight=(float)targetDot.sourceLightColor.getBlue()/255;
     if(pass>0){
-      multiplier = 10;
+      multiplier = 3;
     }
 
     double totalRadiantFlux=0;

@@ -98,6 +98,14 @@ public class Vector{
     tempVector[2]=tz;
     return new Vector(tempVector[0]+center.getX(),tempVector[1]+center.getY(),tempVector[2]+center.getZ());
   }
+  /**
+   * Rotates vector on an arbitrary axis
+   * returns a Vector
+   * @param angle
+   * @param center
+   @param vector
+   * @return the rotated vector
+   */
   public Vector returnRotateOnVector(double angle, Vector center, Vector vector){//rotates by angle degrees on arb. axis. returns a Vector insteado of changing the current
     Vector v = vector.clone();
     if(!(v.getY()==1 && v.magnitude()==1)){
@@ -240,10 +248,6 @@ public class Vector{
     return new int[]{
       (int)Math.round(getX()), (int)Math.round(getY()), (int)Math.round(getZ())
     };
-  }
-  public void toIntArr(int[] xs, int[] ys, int index){
-    xs[index] = this.toInt()[0];
-    ys[index] = this.toInt()[1];
   }
 
   /**

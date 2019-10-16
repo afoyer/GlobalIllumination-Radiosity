@@ -2,6 +2,9 @@ import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
 public class Renderer{
+  /**
+   * Renderer performs radiosity and generate the lightmap for the scene
+   */
 
   Dot[] bakedDots;
 

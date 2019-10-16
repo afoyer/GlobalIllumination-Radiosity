@@ -1,6 +1,9 @@
 import java.awt.*;
 
 public class Face{
+  /**
+   * Face holds Vector point vertices, normal, and dots
+   */
   Vector[] vertices;
   Vector normal;
   private Color color;
@@ -120,12 +123,24 @@ public class Face{
     Vector v2v3 = v3.minus(v2);
     return (v1v2.cross(v2v3).magnitude())/factor;
   }
+  /**
+   * Gets total area of face
+   * @return - area of the face
+   */
   public double getTotalarea(){
     return totalarea;
   }
+  /**
+   * Gets color
+   * @return - the color of the face
+   */
   public Color getColor(){
     return color;
   }
+  /**
+   * Sets color
+   * @param color
+   */
   public void setColor(Color color){
     this.color = color;
   }

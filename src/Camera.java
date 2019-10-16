@@ -2,6 +2,9 @@ import java.awt.image.*;
 import java.awt.*;
 import java.util.*;
 public class Camera{
+  /**
+   * Camera rayscasts and renders the image onto a 2D pixel screen.
+   */
   Vector position;
   CameraFrame frame;
   Face[] faces;
@@ -16,6 +19,10 @@ public class Camera{
     frame=cf;
     this.faces=faces;
   }
+  /**
+   * Rayscasts and draws image on screen
+   * @return The BufferedImage
+   */
   public BufferedImage draw(){
     BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_BGR);
     Graphics2D g2d = image.createGraphics();

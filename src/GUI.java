@@ -3,6 +3,9 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 class GUI extends JPanel implements ChangeListener
+/**
+ * GUI for program
+ */
  {
  	Canvas canvas;
 	JSlider xSlider,ySlider;

@@ -16,7 +16,7 @@ import java.awt.image.*;
 public class Canvas extends JPanel
 {
 
-	final double dotarea = 49;
+	final double dotarea = 64;
 
 	Renderer renderer;
 	CameraFrame cameraFrame;
@@ -42,8 +42,8 @@ public class Canvas extends JPanel
 		face3.setColor(Color.green);
 
 		Face areaLight = new Face(new Vector[]{new Vector(50,-300,50),new Vector(50,-300,0),new Vector(-50,-300,0),new Vector(-50,-300,50)});
-		areaLight.setColor(new Color(250,230,175));
-		areaLight.generateDots(dotarea,1000);
+		areaLight.setColor(new Color(255,230,175));
+		areaLight.generateDots(25,1000);
 
 		face3.generateDots(dotarea,0);
 		//CUBE
@@ -82,7 +82,7 @@ public class Canvas extends JPanel
 		camera = new Camera(Vector.origin,cameraFrame,faces);
 		renderer = new Renderer();
 		renderer.loadFaces(faces);
-		renderer.bake(4);
+		renderer.bake(2);
 
 
 

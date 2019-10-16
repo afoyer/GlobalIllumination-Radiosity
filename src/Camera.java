@@ -5,6 +5,12 @@ public class Camera{
   Vector position;
   CameraFrame frame;
   Face[] faces;
+  /**
+   * Constructor for Camera
+   * @param p - position of camera
+   * @param cf - CameraFrame for the camera
+   * @param faces - Faces to render on screen
+   */
   public Camera(Vector p, CameraFrame cf, Face[] faces){
     position=p;
     frame=cf;
@@ -34,7 +40,7 @@ public class Camera{
           for(int i=0; i<g2dPixels[0].length; i++){
             Vector frameIntersection = frame.getIntersection(position, dots[d].vertices[i].minus(position));
             if(frameIntersection!=null){
-              Vector cameraFrame = frameIntersection.minus(position);  
+              Vector cameraFrame = frameIntersection.minus(position);
               g2dPixels[0][i]=(int)cameraFrame.getX()+frame.getWidth()/2;
               g2dPixels[1][i]=(int)cameraFrame.getY()+frame.getHeight()/2;
             }

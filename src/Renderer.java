@@ -2,28 +2,31 @@ import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
 public class Renderer{
-  ArrayList<Light> directLights;
 
   Dot[] bakedDots;
 
   Face[] faces;
-  double totalRadiantFlux;
 
   double deltaPhi=2;
   double deltaTheta=2;
   double maxPhi=90;
   double maxTheta=360;
-
+  /**
+   * Constructor for Renderer
+   */
   public Renderer(){
-    directLights=new ArrayList<Light>();
-    totalRadiantFlux=0;
   }
-  public void addLight(Light l){
-    directLights.add(l);
-  }
+  /**
+	* Loads faces onto the renderer
+	* @param fs
+	*/
   public void loadFaces(Face[] fs){
     faces=fs;
   }
+  /**
+	* Bakes the lightmap
+	* @param maxPass
+	*/
   public void bake(int maxPass){
     globalIlluminationBaker(maxPass,0);
 
@@ -37,7 +40,11 @@ public class Renderer{
     bakedDots = bakedDotList.toArray(new Dot[bakedDotList.size()]);
     System.out.println("baking finished");
   }
-  //calculates light and color at each dot from diffused light source from other dots
+  /**
+	* Helper function for bake()
+	* @param maxPass
+  * @param pass
+	*/
   private void globalIlluminationBaker(int maxPass, int pass){
     System.out.println("Pass: " + pass + "/" + maxPass);
     double prevpercent = -0.1;
@@ -103,6 +110,15 @@ public class Renderer{
     }
   }
 
+  /**
+	* Helper function for globalIlluminationBaker()
+  * @param rays
+  * @param sourceDots
+  * @param targetDot
+  * @param targetFace
+  * @param pass
+  * @return Renderer collr at dot
+	*/
   private Color renderColor(ArrayList<Vector> rays, ArrayList<Dot> sourceDots, Dot targetDot, Face targetFace, int pass){
     //radiant flux by the light on the dot is the dot area divided by the total spherical area at that distance
     float rLight,gLight,bLight;
@@ -111,7 +127,7 @@ public class Renderer{
     gLight=(float)targetDot.sourceLightColor.getGreen()/255;
     bLight=(float)targetDot.sourceLightColor.getBlue()/255;
     if(pass>0){
-      multiplier = 3;
+      multiplier = 3; //multiplier for diffused reflection
     }
 
     double totalRadiantFlux=0;

@@ -15,8 +15,12 @@ import java.awt.image.*;
 
 public class Canvas extends JPanel
 {
-
+	/*
+	* Coordinate system is y+ down, x+ right, and z+ out
+	*
+	*/
 	final double dotarea = 64;
+	final double cubeDotarea = 36;
 
 	Renderer renderer;
 	CameraFrame cameraFrame;
@@ -41,38 +45,50 @@ public class Canvas extends JPanel
 		Face face3 = new Face(new Vector[]{new Vector(300,300,-300),new Vector(300,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
 		face3.setColor(Color.green);
 
-		Face areaLight = new Face(new Vector[]{new Vector(50,-300,50),new Vector(50,-300,0),new Vector(-50,-300,0),new Vector(-50,-300,50)});
+		Face areaLight = new Face(new Vector[]{new Vector(50,-290,50-150),new Vector(50,-290,0-150),new Vector(-50,-290,0-150),new Vector(-50,-290,50-150)});
 		areaLight.setColor(new Color(255,230,175));
 		areaLight.generateDots(25,1000);
 
 		face3.generateDots(dotarea,0);
 		//CUBE
-		Face face4 = new Face(new Vector[]{new Vector(100,90,-200),new Vector(100,290,-200),new Vector(-0,290,-150),new Vector(-0,90,-150)});
+		//front
+		Face face4 = new Face(new Vector[]{new Vector(-200,300,-201),new Vector(-200,0,-201),new Vector(-150,0,-201),new Vector(-150,300,-201)});
 		face4.setColor(Color.white);
-		face4.generateDots(dotarea,0);
-		Face face5 = new Face(new Vector[]{new Vector(-100,290,-200),new Vector(-100,90,-200),new Vector(0,90,-150),new Vector(0,290,-150)});
-		face5.setColor(Color.white);
-		face5.generateDots(dotarea,0);
-		int frameScale=100; //change this for camera frame size (smaller=more pixallated but less space in between pixels)
-		Face face6 = new Face(new Vector[]{new Vector(-0,290,-250),new Vector(0,90,-250),new Vector(-100,90,-200),new Vector(-100,290,-200)});
-		face6.setColor(Color.white);
-		face6.generateDots(dotarea,0);
-		Face face7 = new Face(new Vector[]{new Vector(100,290,-200),new Vector(100,90,-200),new Vector(0,90,-250),new Vector(0,290,-250)});
-		face7.setColor(Color.white);
-		face7.generateDots(dotarea,0);
-		Face face8 = new Face(new Vector[]{new Vector(100,90,-200),new Vector(0,90,-150),new Vector(-100,90,-200), new Vector(0,90,-250)});
-		face8.setColor(Color.white);
-		face8.generateDots(dotarea,0);
-		Face face9 = new Face(new Vector[]{new Vector(0,290,-250),new Vector(-100,290,-200),new Vector(0,290,-150),new Vector(100,290,-200)});
+		face4.generateDots(cubeDotarea,0);
+		//back
+		Face face9 = new Face(new Vector[]{new Vector(-200,300,-250),new Vector(-200,0,-250),new Vector(-150,0,-250),new Vector(-150,300,-250)});
+		face9.flip();
 		face9.setColor(Color.white);
-		face9.generateDots(dotarea,0);
+		face9.generateDots(cubeDotarea,0);
+		//left
+		Face face5 = new Face(new Vector[]{new Vector(-200,300,-250),new Vector(-200,0,-250),new Vector(-200,0,-200),new Vector(-200,300,-200)});
+		face5.setColor(Color.white);
+		face5.generateDots(cubeDotarea,0);
+		//right
+		Face face6 = new Face(new Vector[]{new Vector(-150,300,-250),new Vector(-150,0,-250),new Vector(-150,0,-200),new Vector(-150,300,-200)});
+		face6.flip();
+		face6.setColor(Color.white);
+		face6.generateDots(cubeDotarea,0);
+		//top
+		Face face7 = new Face(new Vector[]{new Vector(-200,1,-200),new Vector(-200,1,-250),new Vector(-150,1,-250),new Vector(-150,1,-200)});
+		face7.setColor(Color.white);
+		face7.generateDots(cubeDotarea,0);
+		//bottom
+		Face face8 = new Face(new Vector[]{new Vector(-200,300,-200),new Vector(-200,300,-250),new Vector(-150,300,-250),new Vector(-150,300,-200)});
+		face8.flip();
+		face8.setColor(Color.white);
+		face8.generateDots(cubeDotarea,0);
 		//FLOOR AND ROOF
+		//floor
 		Face face10 = new Face(new Vector[]{new Vector(-300,300,-300),new Vector(300,300,-300),new Vector(300,300,0),new Vector(-300,300,0)});
 		face10.setColor(Color.white);
 		face10.generateDots(dotarea,0);
+		//roof
 		Face face11 = new Face(new Vector[]{new Vector(-300,-300,0),new Vector(300,-300,0),new Vector(300,-300,-300),new Vector(-300,-300,-300)});
 		face11.setColor(Color.white);
 		face11.generateDots(dotarea,0);
+
+		int frameScale=100; //change this for camera frame size (smaller=more pixallated but less space in between pixels)
 		int frameWidth=10*frameScale;
 		int frameHeight=10*frameScale;
 		int frameDepth=3*frameScale;

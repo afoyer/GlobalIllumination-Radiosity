@@ -77,25 +77,27 @@ public class Face{
 
     int sectionV = (int) (vectorV.magnitude()/length); //get
     int sectionH = (int) (vectorH.magnitude()/length);
-    dots = new Dot[(sectionH-1)*(sectionV-1)];
 
-    for(double i = 1; i < sectionH; i++){
-      Vector vH = vertices[0].plus(vectorH.scale(i/sectionH));//shift on "horizontal" vector
-      vH = vH.minus(vertices[0]);
-      for(double j = 1; j < sectionV; j++){
-        Vector vV = vertices[0].plus(vectorV.scale(j/sectionV));//shift on "horizontal" vector
-        vV = vV.minus(vertices[0]);
-        vV = vV.plus(vH);
-        Vector position = new Vector(vertices[0].plus(vV));
+    Vector unitH = vectorH.scale(length/vectorH.magnitude());
+    Vector unitV = vectorV.scale(length/vectorV.magnitude());
+    dots = new Dot[sectionH*sectionV];
+
+    for(double i = 0; i < sectionH; i++){
+      Vector vH = unitH.scale(i).plus(unitH.scale(0.5));
+      for(double j =0; j < sectionV; j++){
+        Vector vV = unitV.scale(j).plus(unitV.scale(0.5));
+        Vector vC = vV.plus(vH);
+        Vector position = new Vector(vertices[0].plus(vC));
         dots[counter] = new Dot(position);
         dots[counter].matColor = color;
         dots[counter].setLight(new Light(position,initialRadiantFlux,color));
 
-        double buffer=0.1*length;
-        dots[counter].vertices[0]=position.minus(vectorH.normalize().scale(buffer+length/2)).minus(vectorV.normalize().scale(buffer+length/2));
-        dots[counter].vertices[1]=position.minus(vectorH.normalize().scale(buffer+length/2)).plus(vectorV.normalize().scale(buffer+length/2));
-        dots[counter].vertices[2]=position.plus(vectorH.normalize().scale(buffer+length/2)).plus(vectorV.normalize().scale(buffer+length/2));
-        dots[counter].vertices[3]=position.plus(vectorH.normalize().scale(buffer+length/2)).minus(vectorV.normalize().scale(buffer+length/2));
+        double buffer=1.05;
+
+        dots[counter].vertices[0]=position.minus(unitH.scale(0.5)).minus(unitV.scale(0.5)).scale(buffer);
+        dots[counter].vertices[1]=position.minus(unitH.scale(0.5)).plus(unitV.scale(0.5)).scale(buffer);
+        dots[counter].vertices[2]=position.plus(unitH.scale(0.5)).plus(unitV.scale(0.5)).scale(buffer);
+        dots[counter].vertices[3]=position.plus(unitH.scale(0.5)).minus(unitV.scale(0.5)).scale(buffer);
         counter++;
       }
     }
@@ -143,6 +145,9 @@ public class Face{
    */
   public void setColor(Color color){
     this.color = color;
+  }
+  public void flip(){
+    normal = normal.scale(-1);
   }
 
 

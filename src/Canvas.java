@@ -19,8 +19,8 @@ public class Canvas extends JPanel
 	* Coordinate system is y+ down, x+ right, and z+ out
 	*
 	*/
-	final double dotarea = 64;
-	final double cubeDotarea = 36;
+	final double dotarea = 100;
+	final double cubeDotarea = 100;
 
 	Renderer renderer;
 	CameraFrame cameraFrame;
@@ -45,7 +45,7 @@ public class Canvas extends JPanel
 		Face face3 = new Face(new Vector[]{new Vector(300,300,-300),new Vector(300,-300,-300),new Vector(300,-300,0),new Vector(300,300,0)});
 		face3.setColor(Color.green);
 
-		Face areaLight = new Face(new Vector[]{new Vector(50,-290,50-150),new Vector(50,-290,0-150),new Vector(-50,-290,0-150),new Vector(-50,-290,50-150)});
+		Face areaLight = new Face(new Vector[]{new Vector(50,-290,50),new Vector(50,-290,0),new Vector(-50,-290,0-150),new Vector(-50,-290,50)});
 		areaLight.setColor(new Color(255,230,175));
 		areaLight.generateDots(25,1000);
 
@@ -98,7 +98,7 @@ public class Canvas extends JPanel
 		camera = new Camera(Vector.origin,cameraFrame,faces);
 		renderer = new Renderer();
 		renderer.loadFaces(faces);
-		renderer.bake(2);
+		renderer.bake(8);
 
 
 

@@ -130,7 +130,7 @@ public class Renderer{
     gLight=(float)targetDot.sourceLightColor.getGreen()/255;
     bLight=(float)targetDot.sourceLightColor.getBlue()/255;
     if(pass>0){
-      multiplier = 3; //multiplier for diffused reflection
+      multiplier = 1; //multiplier for diffused reflection
     }
 
     double totalRadiantFlux=0;
